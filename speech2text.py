@@ -11,7 +11,12 @@ def recognize():
     with mic as source:
         audio = r.listen(source)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
-        return r.recognize_google(audio)
+        try:
+            response = r.recognize_google(audio)
+        except sr.UnknownValueError:
+            response = "exception"
+        return response
+
 
 def stopSong():
     print("stop")
