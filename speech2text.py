@@ -44,5 +44,3 @@ if __name__ == '__main__':
         changeSong()
     elif command.startswith("play"):
         playSong(command)
-
-

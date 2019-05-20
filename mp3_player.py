@@ -9,6 +9,9 @@ import speech2text
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 128)
 listofsongs=[]
 directory = 'C:/Users/Pietro/Desktop/Feel & Drive/music'
 os.chdir(directory)
