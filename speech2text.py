@@ -15,6 +15,8 @@ def recognize():
             response = r.recognize_google(audio)
         except sr.UnknownValueError:
             response = "exception"
+            engine.say("I didn't understand")
+            engine.runAndWait()
         return response
 
 
@@ -40,7 +42,7 @@ def playSong(string):
 
 if __name__ == '__main__':
     askSong()
-    command = recognize()
+    '''command = recognize()
     if command == "exit":
         exit()
     elif command == "stop":
@@ -49,3 +51,4 @@ if __name__ == '__main__':
         changeSong()
     elif command.startswith("play"):
         playSong(command)
+'''
