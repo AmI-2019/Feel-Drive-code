@@ -50,8 +50,18 @@ def changesong_voice():
     index = random.randint(0, len(listofsongs) - 1)
     pygame.mixer.music.load(listofsongs[index])
     pygame.mixer.music.play()
-    text = song_label.render(listofsongs[index], True, GREEN, BLUE)
 
+
+    display_surface = pygame.display.set_mode((600, 600))
+    pygame.display.set_caption('Feel & Drive: music player')
+    motto_label = pygame.font.Font('freesansbold.ttf', 25)
+    motto = motto_label.render("WELCOME to you Feel & Drive experience", True, GREEN, BLUE)
+    mottoRect = motto.get_rect()
+    mottoRect.center = (600 // 2, 600 // 6)
+
+    song_label = pygame.font.Font('freesansbold.ttf', 19)
+    song = song_label.render(listofsongs[index], True, BLUE, WHITE)
+    return (display_surface,song)
 
 def nextsong():
     global index
@@ -80,7 +90,7 @@ while not done:
             elif command == "stop":
                 stopsong_voice()
             elif command == "change":
-                changesong_voice()
+                (display_surface,song)=changesong_voice()
             elif command == "play":
                 playsong_voice()
             else:
