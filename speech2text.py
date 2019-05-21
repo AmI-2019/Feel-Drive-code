@@ -9,7 +9,7 @@ mic = sr.Microphone()
 
 def recognize():
     with mic as source:
-        audio = r.listen(source)
+        audio = r.listen (source)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
         try:
             response = r.recognize_google(audio)

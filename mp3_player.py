@@ -19,7 +19,7 @@ SONG_END=pygame.USEREVENT +1
 
 #pygame
 pygame.init()
-screen = pygame.display.set_mode((1480,1480))
+screen = pygame.display.set_mode((600,600))
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
@@ -34,6 +34,9 @@ mottoRect.center = (600 // 2, 600 // 6)
 
 song_label=pygame.font.Font('freesansbold.ttf', 19)
 song=song_label.render(listofsongs[index],True,BLUE,WHITE)
+songRect = song.get_rect()
+songRect.center = (600 //  2, 600 // 2)
+
 
 #_________________________________________________________
 
@@ -54,14 +57,14 @@ def changesong_voice():
 
     display_surface = pygame.display.set_mode((600, 600))
     pygame.display.set_caption('Feel & Drive: music player')
-    motto_label = pygame.font.Font('freesansbold.ttf', 25)
-    motto = motto_label.render("WELCOME to you Feel & Drive experience", True, GREEN, BLUE)
-    mottoRect = motto.get_rect()
-    mottoRect.center = (600 // 2, 600 // 6)
+
+
 
     song_label = pygame.font.Font('freesansbold.ttf', 19)
     song = song_label.render(listofsongs[index], True, BLUE, WHITE)
-    return (display_surface,song)
+    songRect=song.get_rect()
+    songRect.center = (600 // 2, 600 // 2)
+    return (display_surface, song)
 
 def nextsong():
     global index
@@ -79,7 +82,7 @@ done = False
 while not done:
     display_surface.fill(WHITE)
     display_surface.blit(motto, mottoRect)
-    display_surface.blit(song,(300,300))
+    display_surface.blit(song, song.get_rect())
     for ev in pygame.event.get():
         if ev.type == QUIT:
             done = True
