@@ -7,15 +7,15 @@ import pygame.freetype
 
 # initialization
 import speech2text
-listofsongs=[]
+listOfSongs = []
 
 directory = 'C:/Users/Pietro/Desktop/Feel & Drive/music'
 os.chdir(directory)
 for file in os.listdir(directory):
-    listofsongs.append(file)
-index = random.randint(0,len(listofsongs)-1)
-index = random.randint(0,len(listofsongs)-1)
-SONG_END=pygame.USEREVENT +1
+    listOfSongs.append(file)
+index = random.randint(0, len(listOfSongs) - 1)
+index = random.randint(0, len(listOfSongs) - 1)
+SONG_END = pygame.USEREVENT +1
 
 #pygame
 pygame.init()
@@ -32,10 +32,10 @@ motto = motto_label.render( "WELCOME to you Feel & Drive experience", True, GREE
 mottoRect = motto.get_rect()
 mottoRect.center = (600 // 2, 600 // 6)
 
-song_label=pygame.font.Font('freesansbold.ttf', 19)
-song=song_label.render(listofsongs[index],True,BLUE,WHITE)
+song_label = pygame.font.Font('freesansbold.ttf', 19)
+song = song_label.render(listOfSongs[index], True, BLUE, WHITE)
 songRect = song.get_rect()
-songRect.center = (600 //  2, 600 // 2)
+songRect.center = (600 // 2, 600 // 2)
 
 
 #_________________________________________________________
@@ -50,8 +50,8 @@ def stopsong_voice():
 
 def changesong_voice():
     global index
-    index = random.randint(0, len(listofsongs) - 1)
-    pygame.mixer.music.load(listofsongs[index])
+    index = random.randint(0, len(listOfSongs) - 1)
+    pygame.mixer.music.load(listOfSongs[index])
     pygame.mixer.music.play()
 
 
@@ -61,22 +61,22 @@ def changesong_voice():
 
 
     song_label = pygame.font.Font('freesansbold.ttf', 19)
-    song = song_label.render(listofsongs[index], True, BLUE, WHITE)
-    songRect=song.get_rect()
+    song = song_label.render(listOfSongs[index], True, BLUE, WHITE)
+    songRect = song.get_rect()
     songRect.center = (600 // 2, 600 // 2)
     return (display_surface, song)
 
 def nextsong():
     global index
-    index = (index +1)%(len(listofsongs))
-    pygame.mixer.music.load(listofsongs[index])
+    index = (index +1)%(len(listOfSongs))
+    pygame.mixer.music.load(listOfSongs[index])
     pygame.mixer.music.play()
 
 
 
 # ciclo principale
 pygame.mixer.music.set_endevent(SONG_END)
-pygame.mixer.music.load(listofsongs[index])
+pygame.mixer.music.load(listOfSongs[index])
 pygame.mixer.music.play()
 done = False
 while not done:
