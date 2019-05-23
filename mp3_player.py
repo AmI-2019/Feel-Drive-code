@@ -45,6 +45,8 @@ command=command_label.render('Press a key to enable your assistant!', True, RED)
 commandRect=command.get_rect()
 commandRect.center = (600 // 2, 400)
 
+
+
 #_________________________________________________________
 
 
@@ -91,6 +93,7 @@ def nextsong():
 # ciclo principale
 pygame.mixer.music.set_endevent(SONG_END)
 pygame.mixer.music.load(listOfSongs[index])
+pygame.mixer.music.set_volume(1.0)
 pygame.mixer.music.play()
 done = False
 while not done:
@@ -105,12 +108,12 @@ while not done:
     commandRect = command.get_rect()
     commandRect.center =(600 // 2, 400)
     display_surface.blit(command,commandRect)
-    speech2text.noise_adjust()
+
     for ev in pygame.event.get():
         if ev.type == QUIT:
             done = True
         elif ev.type == KEYDOWN:
-
+            pygame.mixer.music.set_volume(0.1)
             vocal_command = speech2text.recognize()
             if vocal_command == "exit":
                 done = True
@@ -124,6 +127,7 @@ while not done:
                 print("Vocal Command not recognized")
         elif ev.type == SONG_END:
             nextsong()
+        pygame.mixer.music.set_volume(1.0)
         pygame.display.flip()
 
 pygame.quit()
