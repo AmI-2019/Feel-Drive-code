@@ -1,7 +1,7 @@
 import speech_recognition as sr
 #import keyboard
 import pyttsx3
-
+import tkinter
 engine = pyttsx3.init()
 r = sr.Recognizer()
 mic = sr.Microphone()
@@ -9,7 +9,9 @@ mic = sr.Microphone()
 
 def recognize():
     with mic as source:
-        audio = r.listen(source)
+        #tkinter.Tk.bell()
+        r.adjust_for_ambient_noise(source)
+        audio = r.listen(source, phrase_time_limit=1)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
         try:
             response = r.recognize_google(audio)
@@ -39,10 +41,10 @@ def askSong():
 def playSong(string):
     print(string[5:])
 
-
+'''
 if __name__ == '__main__':
     askSong()
-    '''command = recognize()
+    command = recognize()
     if command == "exit":
         exit()
     elif command == "stop":
