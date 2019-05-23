@@ -7,10 +7,17 @@ r = sr.Recognizer()
 mic = sr.Microphone()
 
 
+def noise_adjust():
+    with mic as source:
+        r.adjust_for_ambient_noise(source, 0.6)
+
+
+
+
+
 def recognize():
     with mic as source:
         #tkinter.Tk.bell()
-        r.adjust_for_ambient_noise(source)
         audio = r.listen(source, phrase_time_limit=1)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
         try:
