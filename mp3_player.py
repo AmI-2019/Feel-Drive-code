@@ -70,7 +70,7 @@ def changesong_voice():
 
 
     song_label = pygame.font.Font('freesansbold.ttf', 19)
-    song = song_label.render(listOfSongs[index][:-4], True, BLUE, WHITE)
+    song = song_label.render(listOfSongs[index][:-4], True, BLACK, WHITE)
     songRect=song.get_rect()
     songRect.center = (display_surface.get_width() // 2, display_surface.get_height() // 2)
 

@@ -17,7 +17,7 @@ def recognize():
             response = r.recognize_google(audio)
         except sr.UnknownValueError:
             response = "exception"
-            engine.say("NO CABIDO CABO")
+            engine.say("Can't understand")
             engine.runAndWait()
         return response
 
