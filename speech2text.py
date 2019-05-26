@@ -1,5 +1,4 @@
 import speech_recognition as sr
-#import keyboard
 import pyttsx3
 import tkinter
 engine = pyttsx3.init()
