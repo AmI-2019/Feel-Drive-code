@@ -3,13 +3,14 @@ import requests
 def authenticate():
 
     done=False
-    while done is False:
+    while done == False:
         username=input("Insert username\n")
         password=input("Insert password\n")
-        payload=username+'/'+password
-        response=requests.get('http://0.0.0.0', params=payload)
-        print(response)
+        response=requests.get('http://192.168.0.6:5000/api/v1/login', json={'username': username, 'password':password})
+        r=response.json()
+        
+        if r == '200':
+            done = True
 
+    return username
 
-if __name__ == '__main__':
-    authenticate()
