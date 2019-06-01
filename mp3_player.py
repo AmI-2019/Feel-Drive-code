@@ -6,7 +6,7 @@ import pygame
 from pygame.locals import *
 import pygame.freetype
 
-#username = login.authenticate()
+username = interaction.authenticate()
 
 
 # initialization
