@@ -11,6 +11,5 @@ def authenticate():
         
         if r == '200':
             done = True
-
     return username
 

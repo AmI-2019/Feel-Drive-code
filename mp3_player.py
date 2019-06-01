@@ -1,22 +1,23 @@
 import os
 import sys
 import random
-import login
+import interaction
 import pygame
 from pygame.locals import *
 import pygame.freetype
 
-username = login.authenticate()
+#username = login.authenticate()
 
 
 # initialization
 import speech2text
 listOfSongs = []
 
-directory = 'C:/Users/Pietro/Desktop/Feel & Drive/music/Happiness'
+directory = 'C:/Users/Pietro/Desktop/Feel & Drive/music/Anger'
 os.chdir(directory)
 for file in os.listdir(directory):
-    listOfSongs.append(file)
+    if file.endswith('.mp3'):
+        listOfSongs.append(file)
 index = random.randint(0, len(listOfSongs) - 1)
 SONG_END = pygame.USEREVENT +1
 
