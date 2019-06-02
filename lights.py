@@ -1,115 +1,108 @@
 import requests
 import time
 
-#azzurro
 
-def custom(hue, bri):
-    if type(all_the_lights) is dict:
-        # iterate over the Hue lights, turn them on with the color loop effect
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue": hue, 'bri': bri}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
+class HueLights:
+    def __init__(self, base_url, username):
+        self.base_url = base_url
+        self.username = username
+        self.lights_url = self.base_url + '/api/' + self.username + '/lights/'
+        self.all_the_lights = requests.get(self.lights_url).json()
 
+    def set(self, hue, bri):
+        if type(self.all_the_lights) is dict:
+            # iterate over the Hue lights, turn them on with the color loop effect
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": hue, 'bri': bri}
+                requests.put(url_to_call, json=body)
 
+    # azzurro
+    def set_sad(self):
+        if type(self.all_the_lights) is dict:
+            # iterate over the Hue lights, turn them on with the color loop effect
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": 46920, "bri": 65}
+                requests.put(url_to_call, json=body)
 
-def sad():
-    if type(all_the_lights) is dict:
-        # iterate over the Hue lights, turn them on with the color loop effect
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue":46920, "bri":65}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
+    # arancione
+    def set_happy(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": 8000, "bri": 70}
+                requests.put(url_to_call, json=body)
 
-#arancione
-def happy():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue":8000, "bri":30}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
+    # rosso
+    def set_angry(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": 0, "bri": 75}
+                requests.put(url_to_call, json=body)
 
+    # viola
+    def set_purple(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": 56000, "bri": 95}
+                requests.put(url_to_call, json=body)
 
-#rosso
-def angry():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue": 0, "bri":15}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
+    # verde
+    def set_green(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, "hue": 22000, "bri": 50}
+                requests.put(url_to_call, json=body)
 
-
-#viola
-def purple():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue": 56000, "bri":15}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
-
-
-#verde
-def green():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, "hue": 22000, "bri":50}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
-
-
-def party():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': True, 'effect': 'colorloop'}
-            # more colors: https://www.developers.meethue.com/documentation/core-concepts
-            requests.put(url_to_call, json=body)
+    def set_party(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': True, 'effect': 'colorloop'}
+                requests.put(url_to_call, json=body)
 
 
-def off():
-    if type(all_the_lights) is dict:
-        for light in all_the_lights:
-            url_to_call = lights_url + light + '/state'
-            body = {'on': False}
-            requests.put(url_to_call, json=body)
+
+    def off(self):
+        if type(self.all_the_lights) is dict:
+            for light in self.all_the_lights:
+                url_to_call = self.lights_url + light + '/state'
+                body = {'on': False}
+                requests.put(url_to_call, json=body)
 
 
 #demo
 if __name__ == '__main__':
 
     # the base URL
-    base_url = 'http://192.168.0.201'
+    #base_url = 'http://192.168.0.201'
     # if you are using the emulator, probably the base_url will be:
-    #base_url = 'http://localhost:8000'
+    base_url = 'http://localhost:80'
+
 
     # example username, generated by following https://developers.meethue.com/develop/get-started-2/
-    username = "GtmODLN6GK9MXxcoxkvRJuIhQvdjzXSOPW77IRGL"
+    #username = "GtmODLN6GK9MXxcoxkvRJuIhQvdjzXSOPW77IRGL"
     # if you are using the emulator, the username is:
-    #username = 'newdeveloper'
+    username = 'newdeveloper'
 
-    # lights URL
-    lights_url = base_url + '/api/' + username + '/lights/'
+    lights = HueLights(base_url, username)
 
-    # get the Hue lights (as JSON)
-    all_the_lights = requests.get(lights_url).json()
-    sad()
+    lights.set_sad()
     time.sleep(2)
-    happy()
+    lights.set_happy()
     time.sleep(2)
-    green()
+    lights.set_green()
     time.sleep(2)
-    angry()
+    lights.set_angry()
     time.sleep(2)
-    purple()
-    #party()
+    lights.set_purple()
+    #lights.set_party()
     time.sleep(2)
-    off()
+    lights.off()
 
 
 
