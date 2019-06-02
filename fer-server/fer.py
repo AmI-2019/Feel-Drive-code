@@ -47,7 +47,8 @@ class Fer:
         start_time = time.time()
         last_time = start_time
         if not DEBUG:
-            cap = cv2.VideoCapture("http://192.168.0.4:8080/stream/video.mjpeg")  # Webcam source
+            # Webcam source
+            cap = cv2.VideoCapture(self.camera)
             print("Opening camera stream...")
         else:
             cap = cv2.VideoCapture(0)  # Video file source
@@ -88,7 +89,6 @@ class Fer:
 
                 self.lock.acquire(1)
                 self.predictions[last_time] = emotion_prediction.tolist()
-                print(emotion_prediction.tolist())
                 self.lock.release()
 
                 if len(emotion_window) > FRAME_WINDOW:
@@ -143,14 +143,14 @@ class Fer:
             self.lock.release()
             return []
 
-        print(self.predictions)
+        #print(self.predictions)
 
         for i, (t, prediction) in enumerate(reversed(self.predictions.items())):
             if i >= MIN_SAMPLE:
                 break
             for j, emotion in enumerate(prediction[0]):
                 local_sum[j] += emotion
-        print(local_sum)
+        #print(local_sum)
         result = [x/(MIN_SAMPLE) for x in local_sum]
         self.lock.release()
         return {k: v for k, v in zip(list(self.emotion_labels.values()), result)}
