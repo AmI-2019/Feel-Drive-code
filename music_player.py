@@ -1,3 +1,4 @@
+import os
 import random
 import pygame
 import interaction
@@ -84,6 +85,7 @@ if __name__ == '__main__':
     pygame.init()
     pygame.font.init()
     songs=interaction.get_songs('Happiness')
+    os.chdir('C:/Users/Pietro/Desktop/Feel & Drive/music/Happiness')
     init_player(songs)
 
     done = False
@@ -99,7 +101,7 @@ if __name__ == '__main__':
                 elif vocal_command == "stop":
                     stopsong_voice()
                 elif vocal_command == "change":
-                    changesong_voice()
+                    changesong_voice(songs)
                 elif vocal_command == "play":
                     playsong_voice()
                 else:

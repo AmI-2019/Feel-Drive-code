@@ -36,7 +36,8 @@ def get_songs(feeling):
     songs = []
     response=requests.get(central_api+'/songs', json={'feeling':feeling}).json()
     for r in response:
-        song=r[2:len(r)-2]
+        r1=str(r)
+        song=r1[2:len(r)-3]
         songs.append(song)
     return songs
 
