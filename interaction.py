@@ -3,7 +3,7 @@ from time import sleep
 import requests
 
 global username
-central_api='http://192.168.0.19:5000/api/v1'
+central_api='http://192.168.1.195:5000/api/v1'
 emotion_api = 'http://192.168.0.34:5000/fer-server'
 
 def authenticate():
@@ -33,8 +33,12 @@ def add_relation(song, comment, feeling):
 
 def get_songs(feeling):
     global api_uri
+    songs = []
     response=requests.get(central_api+'/songs', json={'feeling':feeling}).json()
-    return response
+    for r in response:
+        song=r[2:len(r)-2]
+        songs.append(song)
+    return songs
 
 
 def init_emotion_server():
@@ -49,6 +53,4 @@ def get_emotion():
 
 
 if __name__ == '__main__':
-    init_emotion_server()
-    sleep(12)
-    print(get_emotion())
+    print(get_songs('Happiness'))
