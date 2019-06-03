@@ -15,13 +15,17 @@ def start():
     emotion_detector.start_detector()
     return ''
 
+@app.route(api_endpoint+'/stop', methods=['GET'])
+def stop():
+    global emotion_detector
+    del emotion_detector
+    return ''
 
 @app.route(api_endpoint+'/predictions', methods=['GET'])
 def get_predictions():
     global emotion_detector
     if emotion_detector is not None:
         result = emotion_detector.get_emotion_prediction()
-        print(result['happy'])
         return jsonify(result)
     else:
         return jsonify([])
