@@ -9,10 +9,10 @@ USERNAME = 'newdeveloper'
 
 if __name__ == '__main__':
 
-    base_uri = 'http://192.168.1.68:5000/fer-server'
+    base_uri = 'http://192.168.0.34:5000/fer-server'
 
     predictions = requests.get(base_uri+'/predictions').json()
     hue_controller = HueController()
-    lights = HueLights()
+    lights = HueLights(BASE_URL, USERNAME)
     hue = hue_controller.compute_hue(predictions)
-    lights.custom(hue, 85)
+    lights.set(hue, 85)

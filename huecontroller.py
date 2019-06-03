@@ -19,7 +19,7 @@ class HueController:
         self.sad.automf(3)
         self.angry.automf(3)
 
-        self.rule1 = ctrl.Rule(self.angry['good'], self.hue['red'])
+        self.rule1 = ctrl.Rule(self.angry['good'] | self.angry['average'], self.hue['red'])
         self.rule2 = ctrl.Rule(self.sad['good'], self.hue['blue'])
         self.rule3 = ctrl.Rule(self.happy['good'], self.hue['green'])
 
