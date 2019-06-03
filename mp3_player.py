@@ -1,12 +1,11 @@
 import os
-import sys
 import random
 import interaction
 import pygame
 from pygame.locals import *
 import pygame.freetype
 
-username = interaction.authenticate()
+#username = interaction.authenticate()
 
 
 # initialization
@@ -23,7 +22,6 @@ SONG_END = pygame.USEREVENT +1
 
 #pygame
 pygame.init()
-screen = pygame.display.set_mode((600,600))
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
@@ -134,3 +132,7 @@ while not done:
         pygame.display.flip()
 
 pygame.quit()
+
+if __name__ == '__main__':
+    pygame.init()
+    pygame.font.init()
