@@ -5,13 +5,15 @@ import interaction
 from pygame.locals import *
 import pygame.freetype
 import speech2text
+from config import SONG_DIRECTORY
 
-SONG_END = pygame.USEREVENT +1
+
+SONG_END = pygame.USEREVENT + 1
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
-RED= (255,0,0)
-BLACK=(0,0,0)
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
 
 
 def playsong_voice():
@@ -30,8 +32,8 @@ def nextsong(listOfSongs):
 
 
 def init_player(listOfSongs):
-    index=random.randint(0, len(listOfSongs) - 1)
-    song=listOfSongs[index]
+    index = random.randint(0, len(listOfSongs) - 1)
+    song = listOfSongs[index]
     pygame.mixer.music.set_endevent(SONG_END)
     pygame.mixer.music.load(song)
     pygame.mixer.music.set_volume(1.0)
@@ -79,13 +81,11 @@ def get_GUI(song):
     return display_surface
 
 
-
-
 if __name__ == '__main__':
     pygame.init()
     pygame.font.init()
-    songs=interaction.get_songs('Happiness')
-    os.chdir('C:/Users/Pietro/Desktop/Feel & Drive/music/Happiness')
+    songs = interaction.get_songs('Happiness')
+    os.chdir(SONG_DIRECTORY)
     init_player(songs)
 
     done = False

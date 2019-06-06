@@ -1,6 +1,5 @@
 import os
 import random
-import interaction
 import pygame
 from pygame.locals import *
 import pygame.freetype
