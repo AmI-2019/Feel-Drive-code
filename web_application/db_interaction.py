@@ -5,6 +5,11 @@ DB_USER = 'root'
 DB_PASSWORD = ''
 DB_HOST = 'localhost'
 
+ANGER = 'Anger'
+HAPPINESS = 'Happiness'
+SADNESS = 'Sadness'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+
 
 def check_user_password(u,p):
     sql="""SELECT * FROM users 
@@ -89,7 +94,7 @@ def get_liked_songs_by_feeling(username, feeling):
     return result
 
 
-def get_songs_by_feeling( feeling):
+def get_songs_by_feeling(feeling):
     sql="""SELECT title FROM songs
     WHERE feeling=%s
     """
@@ -101,12 +106,12 @@ def get_songs_by_feeling( feeling):
     return result
 
 
-def load_db():
-   dir='C:/Users/Pietro/Desktop/Feel & Drive/music/Sadness'
-   os.chdir(dir)
-   for file in os.listdir(dir):
-       if file.endswith('.mp3'):
-            add_song(file, 'Sadness')
+def load_db(music_directory_path):
+    os.chdir(music_directory_path)
+    for emotion in EMOTION_LABELS:
+        for file in os.listdir(music_directory_path+emotion):
+            if file.endswith('.mp3'):
+                add_song(file, emotion)
 
 
 if __name__ == '__main__':
