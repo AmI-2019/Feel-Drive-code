@@ -16,80 +16,73 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 
-def playsong_voice():
-    pygame.mixer.music.unpause()
+class MusicPlayer:
+    # class shared variables
+    __instance = None
 
+    def __init__(self):
+        # Singleton pattern: only one Music Player should be created
+        if MusicPlayer.__instance is not None:
+            raise Exception("The Music player has already been created!")
+        else:
+            self.__instance = self
 
-def stopsong_voice():
-    pygame.mixer.music.pause()
+        pygame.init()
+        pygame.font.init()
+        self.song_list = interaction.get_songs('Happiness')
+        os.chdir(SONG_DIRECTORY)
+        pygame.mixer.music.set_endevent(SONG_END)
+        pygame.mixer.music.set_volume(1.0)
+        self.next()
 
+    def __del__(self):
+        pygame.quit()
 
-def nextsong(listOfSongs):
-    index=random.randint(0, len(listOfSongs) - 1)
-    pygame.mixer.music.load(listOfSongs[index])
-    pygame.mixer.music.play()
-    get_GUI(listOfSongs[index])
+    def resume(self):
+        pygame.mixer.music.unpause()
 
+    def pause(self):
+        pygame.mixer.music.pause()
 
-def init_player(listOfSongs):
-    index = random.randint(0, len(listOfSongs) - 1)
-    song = listOfSongs[index]
-    pygame.mixer.music.set_endevent(SONG_END)
-    pygame.mixer.music.load(song)
-    pygame.mixer.music.set_volume(1.0)
-    pygame.mixer.music.play()
-    get_GUI(song)
+    def next(self):
+        index = random.randint(0, len(self.song_list) - 1)
+        pygame.mixer.music.load(self.song_list[index])
+        pygame.mixer.music.play()
+        self.get_gui(self.song_list[index])
 
+    def get_gui(self, song):
+        display_surface = pygame.display.set_mode((600, 600))
+        pygame.display.set_caption('Feel & Drive: music player')
+        motto_label = pygame.font.Font('freesansbold.ttf', 25)
+        motto = motto_label.render("WELCOME to you Feel & Drive experience", True, BLUE, RED)
+        mottoRect = motto.get_rect()
+        mottoRect.center = (600 // 2, 600 // 6)
 
-def changesong_voice(listOfSongs):
-    index=random.randint(0, len(listOfSongs) - 1)
-    pygame.mixer.music.load(listOfSongs[index])
-    pygame.mixer.music.play()
+        song_label = pygame.font.Font('freesansbold.ttf', 19)
+        song = song_label.render(song[:-4], True, BLACK, WHITE)
+        songRect = song.get_rect()
+        songRect.center = (600 // 2, 600 // 2)
 
-    get_GUI(listOfSongs[index])
+        command_label = pygame.font.Font('freesansbold.ttf', 19)
+        command = command_label.render('Press a key to enable your assistant!', True, RED)
+        commandRect = command.get_rect()
+        commandRect.center = (600 // 2, 400)
 
+        display_surface.fill(WHITE)
+        display_surface.blit(motto, mottoRect)
 
-def get_GUI(song):
-    display_surface = pygame.display.set_mode((600, 600))
-    pygame.display.set_caption('Feel & Drive: music player')
-    motto_label = pygame.font.Font('freesansbold.ttf', 25)
-    motto = motto_label.render("WELCOME to you Feel & Drive experience", True, BLUE, RED)
-    mottoRect = motto.get_rect()
-    mottoRect.center = (600 // 2, 600 // 6)
+        songRect = song.get_rect()
+        songRect.center = (600 // 2, 600 // 2)
+        display_surface.blit(song, songRect)
 
-    song_label = pygame.font.Font('freesansbold.ttf', 19)
-    song = song_label.render(song[:-4], True, BLACK, WHITE)
-    songRect = song.get_rect()
-    songRect.center = (600 // 2, 600 // 2)
+        commandRect = command.get_rect()
+        commandRect.center = (600 // 2, 400)
+        display_surface.blit(command, commandRect)
 
-    command_label = pygame.font.Font('freesansbold.ttf', 19)
-    command = command_label.render('Press a key to enable your assistant!', True, RED)
-    commandRect = command.get_rect()
-    commandRect.center = (600 // 2, 400)
+        return display_surface
 
-    display_surface.fill(WHITE)
-    display_surface.blit(motto, mottoRect)
-
-    songRect = song.get_rect()
-    songRect.center = (600 // 2, 600 // 2)
-    display_surface.blit(song, songRect)
-
-    commandRect = command.get_rect()
-    commandRect.center = (600 // 2, 400)
-    display_surface.blit(command, commandRect)
-
-    return display_surface
-
-
-if __name__ == '__main__':
-    pygame.init()
-    pygame.font.init()
-    songs = interaction.get_songs('Happiness')
-    os.chdir(SONG_DIRECTORY)
-    init_player(songs)
-
-    done = False
-    while not done:
+    def handle_event(self):
+        done = False
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 done = True
@@ -99,16 +92,25 @@ if __name__ == '__main__':
                 if vocal_command == "exit":
                     done = True
                 elif vocal_command == "stop":
-                    stopsong_voice()
+                    self.pause()
                 elif vocal_command == "change":
-                    changesong_voice(songs)
+                    self.next()
                 elif vocal_command == "play":
-                    playsong_voice()
+                    self.resume()
                 else:
                     print("Vocal Command not recognized")
             elif ev.type == SONG_END:
-                nextsong()
+                self.next()
+
             pygame.mixer.music.set_volume(1.0)
             pygame.display.flip()
+        return done
 
-    pygame.quit()
+
+# usage example
+if __name__ == '__main__':
+    player = MusicPlayer()
+    quit_player = False
+    while not quit_player:
+        quit_player = player.handle_event()
+    del player
