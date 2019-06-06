@@ -2,7 +2,7 @@ import pymysql
 import os
 
 DB_USER = 'root'
-DB_PASSWORD = ''
+DB_PASSWORD = 'purti97'
 DB_HOST = 'localhost'
 
 ANGER = 'Anger'

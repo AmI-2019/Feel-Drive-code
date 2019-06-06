@@ -5,8 +5,8 @@ import interaction
 from pygame.locals import *
 import pygame.freetype
 import speech2text
+import config
 from config import SONG_DIRECTORY
-
 
 SONG_END = pygame.USEREVENT + 1
 WHITE = (255, 255, 255)
