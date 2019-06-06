@@ -1,0 +1,16 @@
+Packets required to be installed: 
+
+#SpeechToText with microphone:
+
+sudo pip install pyaudio
+
+
+#SpeechToText managing:
+
+sudo pip install SpeechRecognition
+
+
+#TextToSpeech managing:
+
+sudo pip install pyttsx
+
