@@ -2,7 +2,7 @@ import requests
 import time
 
 
-base_url = 'http://192.168.0.36:8083'
+base_url = 'http://localhost:8083'
 
 
 username = 'admin'
