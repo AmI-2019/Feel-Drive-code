@@ -19,11 +19,13 @@ def authenticate():
 def add_relation(song, comment, feeling):
         global username
         if comment == "yes":
-            requests.post(CENTRAL_API + '/relate',
-                          json={'song': song, 'username': username, 'liked': 'True', 'feeling': feeling})
+            response=requests.post(CENTRAL_API + '/add_relation',
+                          json={'song': song, 'username': 'admin', 'liked': 'True', 'feeling': feeling})
         else:
-            requests.post(CENTRAL_API+'/relate',
+            requests.post(CENTRAL_API+'/add_relation',
                           json={'song': song, 'username': username, 'liked': 'False', 'feeling' : feeling})
+
+        print(response)
 
 
 def get_songs(feeling):
@@ -56,5 +58,14 @@ def get_emotion():
     return response
 
 
+def is_song_liked(song):
+    global username
+    response = requests.get(CENTRAL_API + '/is_song_liked', json={"song":song, "username": username}).json()
+    if response is not None:
+        return True
+    else:
+        return False
+
+
 if __name__ == '__main__':
-    print(get_songs('Happiness'))
+    add_relation('Dancing Queen - Abba.mp3','yes','Happiness')

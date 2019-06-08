@@ -1,5 +1,5 @@
-SONG_DIRECTORY = '/media/pi/2E00-9AA8/music/Happiness'
-CENTRAL_API = 'http://192.168.0.19:5000/api/v1'
+SONG_DIRECTORY =  'C:/Users/Pietro/Desktop/Feel & Drive/music/Happiness' #'/media/pi/2E00-9AA8/music/Happiness'
+CENTRAL_API = 'http://192.168.1.10:5000/api/v1'
 FER_SERVER = 'http://192.168.0.34:5000/fer-server'
 
 # HUE LIGHTS

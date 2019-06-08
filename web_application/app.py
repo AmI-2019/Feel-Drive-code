@@ -92,7 +92,7 @@ def REST_add_relation():
     liked=payload['liked']
     feeling=payload['feeling']
     db_interaction.add_relation(username, song, liked, feeling)
-
+    return jsonify('200')
 
 
 @app.route(api_endopoint+'/liked_songs', methods=['GET'])
@@ -109,7 +109,15 @@ def REST_get_songs():
     payload=request.json
     feeling=payload['feeling']
     result=db_interaction.get_songs_by_feeling(feeling)
-    print(result)
+    return jsonify(result)
+
+
+@app.route(api_endopoint+'/is_song_liked', methods=['GET'])
+def REST_song_liked():
+    payload=request.json
+    song=payload['song']
+    username=payload['username']
+    result=db_interaction.check_user_song_relation(song,username)
     return jsonify(result)
 
 

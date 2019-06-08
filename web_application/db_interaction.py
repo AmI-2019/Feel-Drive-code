@@ -114,5 +114,16 @@ def load_db(music_directory_path):
                 add_song(file, emotion)
 
 
+
+def check_user_song_relation(song,username):
+    sql="""SELECT * FROM relations WHERE title=%s AND username=%s
+    """
+    conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
+    cursor = conn.cursor()
+    cursor.execute(sql,(song,username))
+    result = cursor.fetchone()
+    return  result
+
+
 if __name__ == '__main__':
     get_songs_by_feeling("Sadness")

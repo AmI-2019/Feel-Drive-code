@@ -66,12 +66,22 @@ class MusicPlayer:
         songRect.center = (600 // 2, 600 // 2)
 
         command_label = pygame.font.Font('freesansbold.ttf', 19)
-        command = command_label.render('Press a key to enable your assistant!', True, RED)
+        command = command_label.render('Press a key to enable your assistant!', True, BLACK)
         commandRect = command.get_rect()
         commandRect.center = (600 // 2, 400)
 
+        liked_label = pygame.font.Font('freesansbold.ttf', 50)
+        if interaction.is_song_liked(self.song_played) == False:
+            liked=liked_label.render('+', True, RED)
+        else:
+            liked = liked_label.render('_/', True, GREEN)
+        likedRect = liked.get_rect()
+        likedRect.center=(600 // 2, 500)
+
         display_surface.fill(WHITE)
         display_surface.blit(motto, mottoRect)
+
+        display_surface.blit(liked, likedRect)
 
         songRect = song.get_rect()
         songRect.center = (600 // 2, 600 // 2)
