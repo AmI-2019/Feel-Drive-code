@@ -20,7 +20,7 @@ def add_relation(song, comment, feeling):
         global username
         if comment == "yes":
             response=requests.post(CENTRAL_API + '/add_relation',
-                          json={'song': song, 'username': 'admin', 'liked': 'True', 'feeling': feeling})
+                          json={'song': song, 'username': username, 'liked': 'True', 'feeling': feeling})
         else:
             requests.post(CENTRAL_API+'/add_relation',
                           json={'song': song, 'username': username, 'liked': 'False', 'feeling' : feeling})
