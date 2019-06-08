@@ -71,12 +71,12 @@ class MusicPlayer:
         commandRect.center = (600 // 2, 400)
 
         liked_label = pygame.font.Font('freesansbold.ttf', 50)
-        if interaction.is_song_liked(self.song_played) == False:
-            liked=liked_label.render('+', True, RED)
+        if not interaction.is_song_liked(self.song_played):
+            liked = liked_label.render('+', True, RED)
         else:
             liked = liked_label.render('_/', True, GREEN)
         likedRect = liked.get_rect()
-        likedRect.center=(600 // 2, 500)
+        likedRect.center = (600 // 2, 500)
 
         display_surface.fill(WHITE)
         display_surface.blit(motto, mottoRect)
@@ -93,26 +93,29 @@ class MusicPlayer:
 
         return display_surface
 
+    def vocal_command(self):
+        pygame.mixer.music.set_volume(0.1)
+        vocal_command = speech2text.recognize()
+        if vocal_command == "exit":
+            done = True
+        elif vocal_command == "stop":
+            self.pause()
+        elif vocal_command == "change":
+            self.next()
+        elif vocal_command == "play":
+            self.resume()
+        elif vocal_command == "add":
+            interaction.add_relation()
+        else:
+            print("Vocal Command not recognized")
+
     def handle_event(self):
         done = False
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 done = True
             elif ev.type == KEYDOWN:
-                pygame.mixer.music.set_volume(0.1)
-                vocal_command = speech2text.recognize()
-                if vocal_command == "exit":
-                    done = True
-                elif vocal_command == "stop":
-                    self.pause()
-                elif vocal_command == "change":
-                    self.next()
-                elif vocal_command == "play":
-                    self.resume()
-                elif vocal_command == "add":
-                    interaction.add_relation()
-                else:
-                    print("Vocal Command not recognized")
+                self.vocal_command()
             elif ev.type == SONG_END:
                 self.next()
 
