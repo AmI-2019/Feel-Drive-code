@@ -84,7 +84,7 @@ def REST_user_check():
     else:
         return jsonify("200")
 
-@app.route(api_endopoint+'/relate', methods=['POST'])
+@app.route(api_endopoint+'/add_relation', methods=['POST'])
 def REST_add_relation():
     payload=request.json
     username=payload['username']

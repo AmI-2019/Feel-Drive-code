@@ -1,5 +1,4 @@
 from time import sleep
-
 import requests
 from config import FER_SERVER, CENTRAL_API
 
@@ -23,13 +22,24 @@ def add_relation(song, comment, feeling):
             requests.post(CENTRAL_API + '/relate',
                           json={'song': song, 'username': username, 'liked': 'True', 'feeling': feeling})
         else:
-            requests.post('http://192.168.0.6:5000/api/v1/relate',
-                          json={'song': song, 'username': username, 'liked': 'True'})
+            requests.post(CENTRAL_API+'/relate',
+                          json={'song': song, 'username': username, 'liked': 'False', 'feeling' : feeling})
 
 
 def get_songs(feeling):
     songs = []
     response = requests.get(CENTRAL_API + '/songs', json={'feeling': feeling}).json()
+    for r in response:
+        r1 = str(r)
+        song = r1[2:len(r)-3]
+        songs.append(song)
+    return songs
+
+
+def get_liked_songs(feeling):
+    global username
+    songs = []
+    response = requests.get(CENTRAL_API + '/liked_songs', json={'feeling': feeling, "username" : username}).json()
     for r in response:
         r1 = str(r)
         song = r1[2:len(r)-3]

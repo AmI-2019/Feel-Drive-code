@@ -19,6 +19,7 @@ BLACK = (0, 0, 0)
 class MusicPlayer:
     # class shared variables
     __instance = None
+    song_played = None
 
     def __init__(self):
         # Singleton pattern: only one Music Player should be created
@@ -46,6 +47,7 @@ class MusicPlayer:
 
     def next(self):
         index = random.randint(0, len(self.song_list) - 1)
+        self.song_played=self.song_list[index]
         pygame.mixer.music.load(self.song_list[index])
         pygame.mixer.music.play()
         self.get_gui(self.song_list[index])
@@ -97,6 +99,8 @@ class MusicPlayer:
                     self.next()
                 elif vocal_command == "play":
                     self.resume()
+                elif vocal_command == "add":
+                    interaction.add_relation()
                 else:
                     print("Vocal Command not recognized")
             elif ev.type == SONG_END:
