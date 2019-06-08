@@ -39,6 +39,9 @@ class MusicPlayer:
     def __del__(self):
         pygame.quit()
 
+    def close(self):
+        pygame.quit()
+
     def resume(self):
         pygame.mixer.music.unpause()
 
