@@ -123,6 +123,7 @@ class MusicPlayer:
 
 # usage example
 if __name__ == '__main__':
+    username=interaction.authenticate()
     player = MusicPlayer()
     quit_player = False
     while not quit_player:

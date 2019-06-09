@@ -6,7 +6,7 @@
 </head>
 <body>
     <p>Hi {{ user }}, welcome to your Feel & Drive assistant!</p>
-    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+
 <link href='https://fonts.googleapis.com/css?family=Allerta' rel='stylesheet'>
 
 
@@ -88,5 +88,13 @@
             <div class="row"></div>
         </div>
     </div>
+    <div><p>Your songs:</p>
+        <ul>
+            {% for song in songs %}
+                <li>{{song}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
 </body>
 </html>

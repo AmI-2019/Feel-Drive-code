@@ -2,7 +2,7 @@ import pymysql
 import os
 
 DB_USER = 'root'
-DB_PASSWORD = 'purti97'
+DB_PASSWORD = ''
 DB_HOST = 'localhost'
 
 ANGER = 'Anger'
@@ -83,12 +83,24 @@ def add_relation(username,song, liked, feeling):
 
 
 def get_liked_songs_by_feeling(username, feeling):
-    sql="""SELECT song_title FROM relations
+    sql="""SELECT title FROM relations
     WHERE feeling=%s AND username=%s
     """
     conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
     cursor = conn.cursor()
     cursor.execute(sql, (feeling,username))
+    result = cursor.fetchall()
+    conn.close()
+    return result
+
+
+def get_liked_songs(username):
+    sql="""SELECT title FROM relations
+    WHERE username=%s
+    """
+    conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
+    cursor = conn.cursor()
+    cursor.execute(sql, (username,))
     result = cursor.fetchall()
     conn.close()
     return result

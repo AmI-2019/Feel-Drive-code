@@ -25,7 +25,8 @@ def login():
     result=db_interaction.check_user_password(username,password)
     if result is not None:
         session["user_id"]=result
-        return render_template("system.html", user=username)
+        liked_songs=db_interaction.get_liked_songs(username)
+        return render_template("system.html", user=username, songs=liked_songs)
     else:
         return redirect(url_for("login_error"))
 
