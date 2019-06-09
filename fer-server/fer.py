@@ -27,7 +27,8 @@ class Fer:
 
     def __init__(self, camera):
         self.camera = camera
-        self.ferThread = self.DetectorThread(self)
+        self.stoprequst = threading.Event()
+        self.ferThread = self.DetectorThread(self, stop_event=self.stoprequst)
         self.lock = threading.Lock()
         self.predictions = OrderedDict()
         backend.clear_session()
@@ -58,6 +59,8 @@ class Fer:
 
         cv2.namedWindow('window_frame')
         while cap.isOpened():  # True:
+            if self.stoprequst.isSet():
+                break
             ret, bgr_image = cap.read()
 
             # bgr_image = video_capture.read()[1]
@@ -125,15 +128,20 @@ class Fer:
         cv2.destroyAllWindows()
 
     class DetectorThread(threading.Thread):
-        def __init__(self, fer):
+        def __init__(self, fer, stop_event):
             threading.Thread.__init__(self)
             self.fer = fer
+            self.stoprequest = stop_event
 
         def run(self):
             self.fer.detect_emotion()
 
     def start_detector(self):
         self.ferThread.start()
+
+    def close_detector(self):
+        self.stoprequst.set()
+        self.ferThread.join()
 
     def get_emotion_prediction(self):
         self.lock.acquire(1)
