@@ -26,7 +26,7 @@ def login():
     if result is not None:
         session["user_id"]=result
         liked_songs=db_interaction.get_liked_songs(username)
-        return render_template("system.html", user=username, songs=liked_songs)
+        return render_template("system.html", user=username, songs=liked_songs, length=len(liked_songs))
     else:
         return redirect(url_for("login_error"))
 
@@ -59,6 +59,13 @@ def logout():
     return redirect(url_for("home"))
 
 
+@app.route('/delete_relation/<string:username>/<string:song>')
+def delete_relation(username,song):
+    title=song[2:len(song)-3]
+    db_interaction.delete_relation(username,title)
+    return render_template("system.html")
+
+
 @app.route("/registration_error")
 def registration_error():
     return render_template("registration_error.html")
@@ -74,6 +81,7 @@ def registration_succeed():
     return render_template("registration_succeed.html")
 
 
+
 @app.route(api_endopoint+'/login', methods=['GET'])
 def REST_user_check():
     payload=request.json
@@ -84,6 +92,7 @@ def REST_user_check():
         return jsonify("404")
     else:
         return jsonify("200")
+
 
 @app.route(api_endopoint+'/add_relation', methods=['POST'])
 def REST_add_relation():
@@ -120,6 +129,13 @@ def REST_song_liked():
     username=payload['username']
     result=db_interaction.check_user_song_relation(song,username)
     return jsonify(result)
+
+@app.route(api_endopoint+'/delete')
+def REST_delete_relation():
+    payload=request.json
+    username=payload['username']
+    song=payload['song']
+    db_interaction.delete_relation(username, song)
 
 
 if __name__ == '__main__':

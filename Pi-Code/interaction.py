@@ -69,5 +69,10 @@ def is_song_liked(song):
         return False
 
 
+def delete_relation(song):
+    global username
+    requests.post(CENTRAL_API+'/delete', json={"song":song, "username":username})
+
+
 if __name__ == '__main__':
     add_relation('Dancing Queen - Abba.mp3','yes','Happiness')

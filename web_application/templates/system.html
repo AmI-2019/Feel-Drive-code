@@ -13,7 +13,7 @@
 
     <div class="container-audio">
         <audio controls  loop autoplay>
-                   <source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9473/new_year_dubstep_minimix.ogg" type="audio/ogg">
+                   <source src="{{ url_for('static', filename = "Sundress - ASAP Rocky.mp3") }}" type="audio/mp3">
                    Your browser dose not Support the audio Tag
                </audio>
     </div>
@@ -90,9 +90,13 @@
     </div>
     <div><p>Your songs:</p>
         <ul>
-            {% for song in songs %}
-                <li>{{song}}</li>
-            {% endfor %}
+            {% if length > 0 %}
+                {% for song in songs %}
+                    <li>{{song}} <a href="{{ url_for("delete_relation", username=user, song=song) }}">Delete</a></li>
+                {% endfor %}
+            {% else %}
+                <p>You still don't have any favourite song!</p>
+            {% endif %}
         </ul>
     </div>
     <p><a href="{{ url_for('logout') }}">Logout</a></p>

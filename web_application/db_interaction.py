@@ -2,7 +2,7 @@ import pymysql
 import os
 
 DB_USER = 'root'
-DB_PASSWORD = ''
+DB_PASSWORD = 'purti97'
 DB_HOST = 'localhost'
 
 ANGER = 'Anger'
@@ -106,6 +106,18 @@ def get_liked_songs(username):
     return result
 
 
+def delete_relation(username,song):
+    sql = """DELETE FROM relations
+     WHERE title=%s AND username=%s
+    """
+    conn=pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
+    cursor=conn.cursor();
+    cursor.execute(sql, (song, username))
+    conn.commit()
+    conn.close()
+
+
+
 def get_songs_by_feeling(feeling):
     sql="""SELECT title FROM songs
     WHERE feeling=%s
@@ -116,6 +128,7 @@ def get_songs_by_feeling(feeling):
     result = cursor.fetchall()
     conn.close()
     return result
+
 
 
 def load_db(music_directory_path):
@@ -135,6 +148,7 @@ def check_user_song_relation(song,username):
     cursor.execute(sql,(song,username))
     result = cursor.fetchone()
     return  result
+
 
 
 if __name__ == '__main__':
