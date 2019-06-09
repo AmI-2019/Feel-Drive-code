@@ -15,6 +15,11 @@ BLUE = (0, 0, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
+ANGER = 'Anger'
+HAPPINESS = 'Happiness'
+SADNESS = 'Sadness'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+
 
 class MusicPlayer:
     # class shared variables
@@ -28,9 +33,13 @@ class MusicPlayer:
         else:
             self.__instance = self
 
+        self.feeling = HAPPINESS
         pygame.init()
         pygame.font.init()
-        self.song_list = interaction.get_songs('Happiness')
+        self.song_list = {}
+        for emotion in EMOTION_LABELS:
+            self.song_list[emotion] = interaction.get_songs(emotion)
+        print(self.song_list)
         os.chdir(SONG_DIRECTORY)
         pygame.mixer.music.set_endevent(SONG_END)
         pygame.mixer.music.set_volume(1.0)
@@ -49,11 +58,21 @@ class MusicPlayer:
         pygame.mixer.music.pause()
 
     def next(self):
-        index = random.randint(0, len(self.song_list) - 1)
-        self.song_played=self.song_list[index]
-        pygame.mixer.music.load(self.song_list[index])
+        index = random.randint(0, len(self.song_list[self.feeling]) - 1)
+        self.song_played=self.song_list[self.feeling][index]
+        pygame.mixer.music.load(self.song_list[self.feeling][index])
         pygame.mixer.music.play()
-        self.get_gui(self.song_list[index])
+        self.get_gui(self.song_list[self.feeling][index])
+
+    def set_feeling(self, feeling):
+        if feeling not in EMOTION_LABELS:
+            print("Error: emotion not supported")
+            return ''
+        old_feeling = self.feeling
+        self.feeling = feeling
+        if self.feeling is not old_feeling:
+            self.next()
+        return old_feeling
 
     def get_gui(self, song):
         display_surface = pygame.display.set_mode((600, 600))
@@ -129,6 +148,7 @@ class MusicPlayer:
 
 # usage example
 if __name__ == '__main__':
+    interaction.authenticate()
     player = MusicPlayer()
     quit_player = False
     while not quit_player:

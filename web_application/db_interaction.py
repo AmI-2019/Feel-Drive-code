@@ -2,7 +2,7 @@ import pymysql
 import os
 
 DB_USER = 'root'
-DB_PASSWORD = 'purti97'
+DB_PASSWORD = 'toor'
 DB_HOST = 'localhost'
 
 ANGER = 'Anger'
@@ -126,4 +126,4 @@ def check_user_song_relation(song,username):
 
 
 if __name__ == '__main__':
-    get_songs_by_feeling("Sadness")
+    print(get_songs_by_feeling("Sadness"))
