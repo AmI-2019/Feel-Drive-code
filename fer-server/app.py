@@ -18,6 +18,7 @@ def start():
 @app.route(api_endpoint+'/stop', methods=['GET'])
 def stop():
     global emotion_detector
+    emotion_detector.close_detector()
     del emotion_detector
     return ''
 
