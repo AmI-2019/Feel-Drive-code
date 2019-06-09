@@ -1,6 +1,6 @@
 from time import sleep
 import requests
-from config import FER_SERVER, CENTRAL_API
+from config import FER_SERVER, CENTRAL_API, PI_BASE_URL
 
 
 def authenticate():
@@ -49,9 +49,11 @@ def get_liked_songs(feeling):
     return songs
 
 
-def init_emotion_server():
-    requests.post(FER_SERVER + '/start', json={'address': 'insert_here_your_camera_address'})
+def init_emotion_server(camera_address=PI_BASE_URL):
+    requests.post(FER_SERVER + '/start', json={'address': camera_address+':8080/stream/video.mjpeg'})
 
+def close_emotion_server():
+    requests.get(FER_SERVER+'/stop')
 
 def get_emotion():
     response = requests.get(FER_SERVER + '/predictions').json()
