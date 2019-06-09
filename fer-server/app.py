@@ -18,6 +18,7 @@ def start():
 @app.route(api_endpoint+'/stop', methods=['GET'])
 def stop():
     global emotion_detector
+    emotion_detector.close_detector()
     del emotion_detector
     return ''
 
@@ -32,4 +33,4 @@ def get_predictions():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

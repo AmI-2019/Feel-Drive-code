@@ -15,6 +15,11 @@ BLUE = (0, 0, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
+ANGER = 'Anger'
+HAPPINESS = 'Happiness'
+SADNESS = 'Sadness'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+
 
 class MusicPlayer:
     # class shared variables
@@ -28,15 +33,22 @@ class MusicPlayer:
         else:
             self.__instance = self
 
+        self.feeling = HAPPINESS
         pygame.init()
         pygame.font.init()
-        self.song_list = interaction.get_songs('Happiness')
+        self.song_list = {}
+        for emotion in EMOTION_LABELS:
+            self.song_list[emotion] = interaction.get_songs(emotion)
+        print(self.song_list)
         os.chdir(SONG_DIRECTORY)
         pygame.mixer.music.set_endevent(SONG_END)
         pygame.mixer.music.set_volume(1.0)
         self.next()
 
     def __del__(self):
+        pygame.quit()
+
+    def close(self):
         pygame.quit()
 
     def resume(self):
@@ -46,11 +58,21 @@ class MusicPlayer:
         pygame.mixer.music.pause()
 
     def next(self):
-        index = random.randint(0, len(self.song_list) - 1)
-        self.song_played=self.song_list[index]
-        pygame.mixer.music.load(self.song_list[index])
+        index = random.randint(0, len(self.song_list[self.feeling]) - 1)
+        self.song_played=self.song_list[self.feeling][index]
+        pygame.mixer.music.load(self.song_list[self.feeling][index])
         pygame.mixer.music.play()
-        self.get_gui(self.song_list[index])
+        self.get_gui(self.song_list[self.feeling][index])
+
+    def set_feeling(self, feeling):
+        if feeling not in EMOTION_LABELS:
+            print("Error: emotion not supported")
+            return ''
+        old_feeling = self.feeling
+        self.feeling = feeling
+        if self.feeling is not old_feeling:
+            self.next()
+        return old_feeling
 
     def get_gui(self, song):
         display_surface = pygame.display.set_mode((600, 600))
@@ -71,12 +93,12 @@ class MusicPlayer:
         commandRect.center = (600 // 2, 400)
 
         liked_label = pygame.font.Font('freesansbold.ttf', 50)
-        if interaction.is_song_liked(self.song_played) == False:
-            liked=liked_label.render('+', True, RED)
+        if not interaction.is_song_liked(self.song_played):
+            liked = liked_label.render('+', True, RED)
         else:
             liked = liked_label.render('_/', True, GREEN)
         likedRect = liked.get_rect()
-        likedRect.center=(600 // 2, 500)
+        likedRect.center = (600 // 2, 500)
 
         display_surface.fill(WHITE)
         display_surface.blit(motto, mottoRect)
@@ -93,26 +115,29 @@ class MusicPlayer:
 
         return display_surface
 
+    def vocal_command(self):
+        pygame.mixer.music.set_volume(0.1)
+        vocal_command = speech2text.recognize()
+        if vocal_command == "exit":
+            done = True
+        elif vocal_command == "stop":
+            self.pause()
+        elif vocal_command == "change":
+            self.next()
+        elif vocal_command == "play":
+            self.resume()
+        elif vocal_command == "add":
+            interaction.add_relation()
+        else:
+            print("Vocal Command not recognized")
+
     def handle_event(self):
         done = False
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 done = True
             elif ev.type == KEYDOWN:
-                pygame.mixer.music.set_volume(0.1)
-                vocal_command = speech2text.recognize()
-                if vocal_command == "exit":
-                    done = True
-                elif vocal_command == "stop":
-                    self.pause()
-                elif vocal_command == "change":
-                    self.next()
-                elif vocal_command == "play":
-                    self.resume()
-                elif vocal_command == "add":
-                    interaction.add_relation()
-                else:
-                    print("Vocal Command not recognized")
+                self.vocal_command()
             elif ev.type == SONG_END:
                 self.next()
 
@@ -123,7 +148,7 @@ class MusicPlayer:
 
 # usage example
 if __name__ == '__main__':
-    username=interaction.authenticate()
+    username = interaction.authenticate()
     player = MusicPlayer()
     quit_player = False
     while not quit_player:

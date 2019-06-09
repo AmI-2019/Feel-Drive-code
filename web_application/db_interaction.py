@@ -83,7 +83,7 @@ def add_relation(username,song, liked, feeling):
 
 
 def get_liked_songs_by_feeling(username, feeling):
-    sql="""SELECT title FROM relations
+    sql="""SELECT song_title FROM relations
     WHERE feeling=%s AND username=%s
     """
     conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
