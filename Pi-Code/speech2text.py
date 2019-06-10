@@ -1,7 +1,5 @@
 import speech_recognition as sr
-import pyttsx3
-import tkinter
-engine = pyttsx3.init()
+import tts
 r = sr.Recognizer()
 mic = sr.Microphone()
 
@@ -10,14 +8,14 @@ def recognize():
     with mic as source:
         r.adjust_for_ambient_noise(source, 0.5)
         # tkinter.Tk.bell()
+        tts.start_speak()
         audio = r.listen(source, phrase_time_limit=1)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
         try:
             response = r.recognize_google(audio)
         except sr.UnknownValueError:
             response = "exception"
-            engine.say("Can't understand")
-            engine.runAndWait()
+            tts.exception_audio()
         return response
 
 
@@ -30,9 +28,6 @@ def changeSong():
 
 
 def askSong():
-    engine.say("Do you like this song?")
-    engine.runAndWait()
-    print("done")
     response = recognize()
     print(response)
 
