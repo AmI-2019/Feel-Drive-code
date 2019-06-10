@@ -123,7 +123,7 @@ class MusicPlayer:
             done = True
         elif vocal_command == "stop":
             self.pause()
-        elif vocal_command == "next":
+        elif vocal_command == "next" or vocal_command[:2]=="ne":
             self.next()
         elif vocal_command == "play":
             self.resume()
