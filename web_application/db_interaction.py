@@ -1,6 +1,7 @@
 import pymysql
 import os
 
+
 DB_USER = 'root'
 DB_PASSWORD = 'purti97'
 DB_HOST = 'localhost'
@@ -8,7 +9,8 @@ DB_HOST = 'localhost'
 ANGER = 'Anger'
 HAPPINESS = 'Happiness'
 SADNESS = 'Sadness'
-EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+PARTY = 'Party'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS, PARTY)
 
 
 def check_user_password(u,p):
@@ -152,4 +154,4 @@ def check_user_song_relation(song,username):
 
 
 if __name__ == '__main__':
-    get_songs_by_feeling("Sadness")
+    load_db('C:/Users/Pietro/Desktop/Feel & Drive/music/')

@@ -33,7 +33,7 @@ class MusicPlayer:
         else:
             self.__instance = self
 
-        self.feeling = HAPPINESS
+        self.feeling = ''
         pygame.init()
         pygame.font.init()
         self.song_list = {}
@@ -128,6 +128,10 @@ class MusicPlayer:
             self.resume()
         elif vocal_command == "add":
             interaction.add_relation()
+            self.get_gui()
+        elif vocal_command == 'remove':
+            interaction.delete_relation(self.song_played)
+            self.get_gui()
         else:
             print("Vocal Command not recognized")
 
