@@ -3,27 +3,56 @@ import config
 import music_player
 import speech2text
 import interaction
-from gpio import Button
-import huecontroller
-import lights
+from gpio import Button, BrightnessSensor
+from huecontroller import HueController
+from lights import HueLights
 import time
 
-global username
+
+ANGER = 'angry'
+HAPPINESS = 'happy'
+SADNESS = 'sad'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+
+SPRAY_WINDOW = 60*9
+PERFUME = True
+
 
 if __name__ == '__main__':
-
     username = interaction.authenticate()
-    player = music_player.MusicPlayer()
 
-    #interaction.init_emotion_server()  #remember to set camera's IP address
-    #time.sleep(8)
-    #feeling = interaction.get_emotion()
+    interaction.init_emotion_server()  #remember to set camera's IP address
+    time.sleep(10)
+
+    player = music_player.MusicPlayer()
 
     button = Button()
     button.set_callback_function(player.vocal_command)
 
+    bright_sensor = BrightnessSensor()
+    lights = HueLights()
+    hue_controller = HueController()
+
+    last_spray = time.time()- SPRAY_WINDOW
     quit_player = False
     while not quit_player:
         quit_player = player.handle_event()
+
+        feeling_prediction = interaction.get_emotion_prediction()
+        if type(feeling_prediction) is dict:
+            hue = hue_controller.compute_hue(feeling_prediction)
+
+            brightness = bright_sensor.get_brightness()
+            lights.set(hue, brightness)
+
+            feeling = interaction.get_dominant_emotion(feeling_prediction)
+
+            player.set_feeling(feeling)
+
+            if PERFUME and (feeling is SADNESS or feeling is ANGER):
+                if time.time()- last_spray > SPRAY_WINDOW:
+                    last_spray = time.time()
+                    zwave.perfume()
+
     del player
 

@@ -75,7 +75,7 @@ def delete_relation(song):
 
 
 def get_dominant_emotion(predictions):
-    return ''
+    return max(predictions, key=predictions.get)
 
 
 if __name__ == '__main__':
