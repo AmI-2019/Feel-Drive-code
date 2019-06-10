@@ -20,7 +20,7 @@ if __name__ == '__main__':
     #feeling = interaction.get_emotion()
 
     button = Button()
-    button.set_callback_function(player.vocal_command())
+    button.set_callback_function(player.vocal_command)
 
     quit_player = False
     while not quit_player:
