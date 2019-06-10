@@ -134,7 +134,7 @@ class MusicPlayer:
             interaction.delete_relation(self.song_played)
             self.get_gui()
         else:
-            print("Vocal Command not recognized")
+            print(vocal_command)
 
     def handle_event(self):
         done = False
