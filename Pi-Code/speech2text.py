@@ -8,9 +8,9 @@ mic = sr.Microphone()
 def recognize():
     with mic as source:
         r.adjust_for_ambient_noise(source, 1)
-        time.sleep(1)
+        #time.sleep(1)
         # tkinter.Tk.bell()
-        tts.start_speak()
+        #tts.start_speak()
         audio = r.listen(source, phrase_time_limit=1)
         # print(r.recognize_houndify(audio, "4ld9WM_kTXLshYS-GOKr7g==", "5b55t3QsJeptvgRe6f2U3mhjx9DGMkliWpaG24QVlbEziEAKDKdBlfPcuz037fk9e2UmaDK3-NaNKm7c3ZA6pw=="))
         try:
