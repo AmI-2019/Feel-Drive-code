@@ -7,6 +7,7 @@ from gpio import Button, BrightnessSensor
 from huecontroller import HueController
 from lights import HueLights
 import time
+import tts
 
 
 ANGER = 'angry'
@@ -21,6 +22,7 @@ PERFUME = True
 if __name__ == '__main__':
     username = interaction.authenticate()
 
+    tts.initalization()
     interaction.init_emotion_server()  #remember to set camera's IP address
     time.sleep(10)
 
@@ -30,7 +32,7 @@ if __name__ == '__main__':
     button.set_callback_function(player.vocal_command)
 
     bright_sensor = BrightnessSensor()
-    lights = HueLights()
+    lights = HueLights(config.HUE_BASE_URL, config.HUE_USERNAME)
     hue_controller = HueController()
 
     last_spray = time.time()- SPRAY_WINDOW
