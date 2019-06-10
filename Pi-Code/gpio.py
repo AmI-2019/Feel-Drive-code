@@ -34,7 +34,7 @@ class Button:
 
 class BrightnessSensor:
     def __init__(self, pin=LDR_PIN):
-        self.light = LightSensor(pin, charge_time_limit=1.0)
+        self.light = LightSensor(pin, charge_time_limit=0.01)
 
     def get_brightness(self):
         return self.light.value
