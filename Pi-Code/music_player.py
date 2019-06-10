@@ -18,7 +18,8 @@ BLACK = (0, 0, 0)
 ANGER = 'Anger'
 HAPPINESS = 'Happiness'
 SADNESS = 'Sadness'
-EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
+PARTY = 'Party'
+EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS, PARTY)
 
 
 class MusicPlayer:
