@@ -78,5 +78,16 @@ def get_dominant_emotion(predictions):
     return max(predictions, key=predictions.get)
 
 
+def map_emotion_label(label):
+    if label is 'angry':
+        return 'Anger'
+    elif label is 'sad':
+        return 'Sadness'
+    elif label is 'happy':
+        return 'Happiness'
+    else:
+        return label
+
+
 if __name__ == '__main__':
     add_relation('Dancing Queen - Abba.mp3','yes','Happiness')
