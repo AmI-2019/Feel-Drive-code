@@ -55,7 +55,7 @@ def init_emotion_server(camera_address=PI_BASE_URL):
 def close_emotion_server():
     requests.get(FER_SERVER+'/stop')
 
-def get_emotion():
+def get_emotion_prediction():
     response = requests.get(FER_SERVER + '/predictions').json()
     return response
 
@@ -72,6 +72,10 @@ def is_song_liked(song):
 def delete_relation(song):
     global username
     requests.post(CENTRAL_API+'/delete', json={"song":song, "username":username})
+
+
+def get_dominant_emotion(predictions):
+    return ''
 
 
 if __name__ == '__main__':
