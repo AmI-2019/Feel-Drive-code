@@ -34,7 +34,7 @@ class MusicPlayer:
         else:
             self.__instance = self
 
-        self.feeling = ''
+        self.feeling = HAPPINESS
         pygame.init()
         pygame.font.init()
         self.song_list = {}
@@ -60,8 +60,8 @@ class MusicPlayer:
 
     def next(self):
         index = random.randint(0, len(self.song_list[self.feeling]) - 1)
-        self.song_played=self.song_list[self.feeling][index]
-        pygame.mixer.music.load(self.song_list[self.feeling][index])
+        self.song_played = self.song_list[self.feeling][index]
+        pygame.mixer.music.load(self.feeling+'/'+self.song_list[self.feeling][index])
         pygame.mixer.music.play()
         self.get_gui(self.song_list[self.feeling][index])
 
@@ -116,7 +116,7 @@ class MusicPlayer:
 
         return display_surface
 
-    def vocal_command(self):
+    def vocal_command(self, channel = None):
         pygame.mixer.music.set_volume(0.1)
         vocal_command = speech2text.recognize()
         if vocal_command == "exit":
