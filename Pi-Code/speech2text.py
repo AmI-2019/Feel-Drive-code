@@ -6,7 +6,7 @@ mic = sr.Microphone()
 
 def recognize():
     with mic as source:
-        r.adjust_for_ambient_noise(source, 0.5)
+        r.adjust_for_ambient_noise(source, 1)
         # tkinter.Tk.bell()
         tts.start_speak()
         audio = r.listen(source, phrase_time_limit=1)

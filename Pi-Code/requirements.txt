@@ -12,5 +12,6 @@ sudo pip install SpeechRecognition
 
 #TextToSpeech managing:
 
-sudo pip install pyttsx
+sudo pip install gTTS
+
 
