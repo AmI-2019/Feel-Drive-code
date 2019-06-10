@@ -45,7 +45,7 @@ if __name__ == '__main__':
             hue = hue_controller.compute_hue(feeling_prediction)
 
             brightness = bright_sensor.get_brightness()
-            lights.set(hue, brightness)
+            lights.set(int(round(hue)), brightness)
 
             feeling = interaction.get_dominant_emotion(feeling_prediction)
 
