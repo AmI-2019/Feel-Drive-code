@@ -1,11 +1,17 @@
 import requests
 import time
 from config import HUE_USERNAME, HUE_BASE_URL
+HUE_ID = '6'
+HUE_EMULATOR_ID = '1'
+HUE_EMULATOR = True
 
 
 class HueLights:
     def __init__(self, base_url, username):
-        self.light = '6'
+        if HUE_EMULATOR:
+            self.light = HUE_EMULATOR_ID
+        else:
+            self.light = '6'
         self.base_url = base_url
         self.username = username
         self.lights_url = self.base_url + '/api/' + self.username + '/lights/'
@@ -13,11 +19,9 @@ class HueLights:
 
     def set(self, hue, bri):
         if type(self.all_the_lights) is dict:
-            # iterate over the Hue lights, turn them on with the color loop effect
-            #for light in self.all_the_lights:
-                url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": hue, 'bri': bri}
-                requests.put(url_to_call, json=body)
+            url_to_call = self.lights_url + self.light + '/state'
+            body = {'on': True, "hue": hue, 'bri': bri}
+            requests.put(url_to_call, json=body)
 
     # azzurro
     def set_sad(self):
@@ -71,10 +75,9 @@ class HueLights:
 
     def off(self):
         if type(self.all_the_lights) is dict:
-            #for light in self.all_the_lights:
-                url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': False}
-                requests.put(url_to_call, json=body)
+            url_to_call = self.lights_url + self.light + '/state'
+            body = {'on': False}
+            requests.put(url_to_call, json=body)
 
 
 #demo
