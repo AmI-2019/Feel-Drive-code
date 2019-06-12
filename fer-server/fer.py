@@ -13,7 +13,7 @@ from utils.preprocessor import preprocess_input
 from collections import OrderedDict
 import threading
 import time
-DEBUG = False
+DEBUG = True
 
 EMOTION_MODEL_PATH = './models/emotion_model.hdf5'
 # hyper-parameters for bounding boxes shape
