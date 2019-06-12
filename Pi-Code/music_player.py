@@ -75,6 +75,8 @@ class MusicPlayer:
             self.next()
         return old_feeling
 
+
+
     def get_gui(self, song):
         display_surface = pygame.display.set_mode((600, 600))
         pygame.display.set_caption('Feel & Drive: music player')
@@ -121,6 +123,7 @@ class MusicPlayer:
         vocal_command = speech2text.recognize()
         if vocal_command == "exit":
             done = True
+            return done
         elif vocal_command == "stop":
             self.pause()
         elif vocal_command == "next" or vocal_command[:2]=="ne":
@@ -128,13 +131,18 @@ class MusicPlayer:
         elif vocal_command == "play":
             self.resume()
         elif vocal_command == "add":
-            interaction.add_relation()
-            self.get_gui()
+            interaction.add_relation(self.song_played,self.feeling)
+            self.get_gui(self.song_played)
         elif vocal_command == 'remove':
             interaction.delete_relation(self.song_played)
-            self.get_gui()
+            self.get_gui(self.song_played)
+        elif vocal_command == 'party':
+            self.set_feeling(PARTY)
         else:
             print(vocal_command)
+        done = False
+        return done
+
 
     def handle_event(self):
         done = False
@@ -142,7 +150,7 @@ class MusicPlayer:
             if ev.type == QUIT:
                 done = True
             elif ev.type == KEYDOWN:
-                self.vocal_command()
+                done=self.vocal_command()
             elif ev.type == SONG_END:
                 self.next()
 

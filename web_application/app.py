@@ -99,9 +99,8 @@ def REST_add_relation():
     payload=request.json
     username=payload['username']
     song=payload['song']
-    liked=payload['liked']
     feeling=payload['feeling']
-    db_interaction.add_relation(username, song, liked, feeling)
+    db_interaction.add_relation(username, song, feeling)
     return jsonify('200')
 
 
@@ -130,12 +129,14 @@ def REST_song_liked():
     result=db_interaction.check_user_song_relation(song,username)
     return jsonify(result)
 
-@app.route(api_endopoint+'/delete')
+@app.route(api_endopoint+'/delete', methods=['POST'])
 def REST_delete_relation():
     payload=request.json
     username=payload['username']
     song=payload['song']
     db_interaction.delete_relation(username, song)
+
+    return jsonify("200")
 
 
 if __name__ == '__main__':
