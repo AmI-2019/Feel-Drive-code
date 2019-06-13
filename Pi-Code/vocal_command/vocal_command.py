@@ -9,7 +9,10 @@ PLAY = PATH + 'Pi-Code/vocal_command/Play.pmdl'
 STOP = PATH + 'Pi-Code/vocal_command/Stop.pmdl'
 ADD = PATH + 'Pi-Code/vocal_command/Add.pmdl'
 REMOVE = PATH + 'Pi-Code/vocal_command/Remove.pmdl'
-QUIT = PATH + 'Pi-Code/vocal_command/quit.pmdl'
+CLOSE = PATH + 'Pi-Code/vocal_command/Close.pmdl'
+PARTY = PATH + 'Pi-Code/vocal_command/Party.pmdl'
+SHUFFLE = PATH + 'Pi-Code/vocal_command/shuffle.pmdl'
+MY_SONGS = PATH + 'Pi-Code/vocal_command/My_songs.pmdl'
 TIMEOUT = 7
 
 
@@ -17,7 +20,7 @@ class VocalCommand:
     def __init__(self):
         self.detected = False
         self.command = ''
-        self.models = [STOP, PLAY, NEXT, ADD, REMOVE, QUIT]
+        self.models = [STOP, PLAY, NEXT, ADD, REMOVE, CLOSE, PARTY, SHUFFLE, MY_SONGS]
         self.sensitivity = [0.5] * len(self.models)
 
     def interrupt_callback(self):
@@ -51,10 +54,25 @@ class VocalCommand:
         print("remove")
         self.command = 'remove'
 
-    def on_quit(self):
+    def on_close(self):
         self.detected = True
-        print("quit")
+        print("close")
         self.command = 'exit'
+
+    def on_party(self):
+        self.detected = True
+        print("party")
+        self.command = 'party'
+
+    def on_shuffle(self):
+        self.detected = True
+        print("shuffle")
+        self.command = 'shuffle'
+
+    def on_my_songs(self):
+        self.detected = True
+        print("my songs")
+        self.command = 'my songs'
 
     def recognize(self):
         self.command = ''
@@ -63,7 +81,9 @@ class VocalCommand:
         print('Listening... ')
         self.start = time.time()
         detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next,
-                                          self.on_add, self.on_remove, self.on_quit],
+                                          self.on_add, self.on_remove, self.on_close,
+                                          self.on_party, self.on_shuffle, self.on_my_songs
+                                          ],
                interrupt_check=self.interrupt_callback,
                sleep_time=0.03)
         detector.terminate()
