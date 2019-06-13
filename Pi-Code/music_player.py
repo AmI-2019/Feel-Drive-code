@@ -123,6 +123,7 @@ class MusicPlayer:
 
     def vocal_command(self, channel=None):
         pygame.mixer.music.set_volume(0.1)
+        tts.start_speak()
         vocal_command = self.voice_recognizer.recognize()
         if vocal_command == "exit":
             done = True
