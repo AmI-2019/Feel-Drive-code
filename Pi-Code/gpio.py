@@ -1,8 +1,13 @@
 import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
 from gpiozero import LightSensor
+import queue
+import statistics
 BUTTON_PIN = 18
 BOUNCETIME = 750
 LDR_PIN = 10
+
+MEAN_SAMPLES = 10
+DEBUG = False
 
 
 # PULL_DOWN = 10000
@@ -34,10 +39,26 @@ class Button:
 
 class BrightnessSensor:
     def __init__(self, pin=LDR_PIN):
-        self.light = LightSensor(pin, charge_time_limit=0.01)
+        self.light = LightSensor(pin, charge_time_limit=0.03)
+        self.values = queue.Queue(maxsize=MEAN_SAMPLES)
 
     def get_brightness(self):
+        if DEBUG:
+            print(self.light.value)
         return self.light.value
+
+    def get_brightness_smooth(self):
+        val = self.get_brightness()
+        if self.values.full():
+            self.values.get()
+            self.values.put(val)
+            avg = statistics.mean(list(self.values.queue))
+            print("mean: ")
+            print(avg)
+            return avg
+        else:
+            self.values.put(val)
+            return val
 
 
 # demo
