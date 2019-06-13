@@ -1,9 +1,9 @@
-import snowboydecoder
+import vocal_command.snowboydecoder
 import sys
 import signal
 import time
 
-PATH = '/home/pi/repo/'
+PATH = '/home/pi/Feel-Drive-code/'
 NEXT = PATH + 'Pi-Code/vocal_command/Next.pmdl'
 PLAY = PATH + 'Pi-Code/vocal_command/Play.pmdl'
 STOP = PATH + 'Pi-Code/vocal_command/Stop.pmdl'
@@ -77,7 +77,7 @@ class VocalCommand:
     def recognize(self):
         self.command = ''
         self.detected = False
-        detector = snowboydecoder.HotwordDetector(self.models, sensitivity=self.sensitivity)
+        detector = vocal_command.snowboydecoder.HotwordDetector(self.models, sensitivity=self.sensitivity)
         print('Listening... ')
         self.start = time.time()
         detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next,
