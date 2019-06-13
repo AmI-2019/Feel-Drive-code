@@ -4,8 +4,7 @@ import pygame
 import interaction
 from pygame.locals import *
 import pygame.freetype
-import speech2text
-import config
+from vocal_command.vocal_command import VocalCommand
 from config import SONG_DIRECTORY
 
 SONG_END = pygame.USEREVENT + 1
@@ -44,6 +43,7 @@ class MusicPlayer:
         os.chdir(SONG_DIRECTORY)
         pygame.mixer.music.set_endevent(SONG_END)
         pygame.mixer.music.set_volume(1.0)
+        self.voice_recognizer = VocalCommand()
         self.next()
 
     def __del__(self):
@@ -120,7 +120,7 @@ class MusicPlayer:
 
     def vocal_command(self, channel = None):
         pygame.mixer.music.set_volume(0.1)
-        vocal_command = speech2text.recognize()
+        vocal_command = self.voice_recognizer.recognize()
         if vocal_command == "exit":
             done = True
             return done
