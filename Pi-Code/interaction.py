@@ -69,16 +69,17 @@ def delete_relation(song):
     response=requests.post(CENTRAL_API+'/delete', json={"song":song, "username":username})
     print(response)
 
+
 def get_dominant_emotion(predictions):
-    return max(predictions, key=predictions.get)
+    return map_emotion_label(max(predictions, key=predictions.get))
 
 
 def map_emotion_label(label):
-    if label is 'angry':
+    if label == 'angry':
         return 'Anger'
-    elif label is 'sad':
+    elif label == 'sad':
         return 'Sadness'
-    elif label is 'happy':
+    elif label == 'happy':
         return 'Happiness'
     else:
         return label
