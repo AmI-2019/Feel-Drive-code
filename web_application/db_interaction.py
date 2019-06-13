@@ -6,11 +6,11 @@ DB_USER = 'root'
 DB_PASSWORD = 'purti97'
 DB_HOST = 'localhost'
 
-ANGER = 'Anger'
+MOTIVATIONAL = 'Motivational'
 HAPPINESS = 'Happiness'
-SADNESS = 'Sadness'
 PARTY = 'Party'
-EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS, PARTY)
+RELAX = 'Relax'
+EMOTION_LABELS = (MOTIVATIONAL, HAPPINESS, PARTY, RELAX)
 
 
 def check_user_password(u,p):

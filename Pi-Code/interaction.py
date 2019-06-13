@@ -76,9 +76,9 @@ def get_dominant_emotion(predictions):
 
 def map_emotion_label(label):
     if label == 'angry':
-        return 'Anger'
+        return 'Relax'
     elif label == 'sad':
-        return 'Sadness'
+        return 'Motivational'
     elif label == 'happy':
         return 'Happiness'
     else:

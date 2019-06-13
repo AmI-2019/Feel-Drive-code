@@ -16,9 +16,9 @@ BLUE = (0, 0, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
-ANGER = 'Anger'
+ANGER = 'Relax'
 HAPPINESS = 'Happiness'
-SADNESS = 'Sadness'
+SADNESS = 'Motivational'
 PARTY = 'Party'
 EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS, PARTY)
 
@@ -140,6 +140,12 @@ class MusicPlayer:
             self.get_gui(self.song_played)
         elif vocal_command == 'party':
             self.set_feeling(PARTY)
+        elif vocal_command == 'my songs':
+            self.song_list = interaction.get_liked_songs(self.feeling)
+            self.next()
+        elif vocal_command == "shuffle":
+            self.song_list = interaction.get_songs(self.feeling)
+            self.next()
         else:
             tts.exception_audio()
         done = False
