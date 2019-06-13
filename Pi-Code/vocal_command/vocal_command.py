@@ -2,11 +2,13 @@ import snowboydecoder
 import sys
 import signal
 
-PATH = '/home/pi/'
-NEXT = PATH + 'Feel-Drive-code/Pi-Code/vocal_command/Next.pmdl'
-PLAY = PATH + 'Feel-Drive-code/Pi-Code/vocal_command/Play.pmdl'
-STOP = PATH + 'Feel-Drive-code/Pi-Code/vocal_command/Stop.pmdl'
-
+PATH = '/home/pi/repo/'
+NEXT = PATH + 'Pi-Code/vocal_command/Next.pmdl'
+PLAY = PATH + 'Pi-Code/vocal_command/Play.pmdl'
+STOP = PATH + 'Pi-Code/vocal_command/Stop.pmdl'
+ADD = PATH + 'Pi-Code/vocal_command/Add.pmdl'
+REMOVE = PATH + 'Pi-Code/vocal_command/Remove.pmdl'
+QUIT = PATH + 'Pi-Code/vocal_command/quit.pmdl'
 
 
 class VocalCommand:
@@ -14,7 +16,7 @@ class VocalCommand:
         self.interrupted = False
         self.detected = False
         self.command = ''
-        self.models = [STOP, PLAY, NEXT]
+        self.models = [STOP, PLAY, NEXT, ADD, REMOVE, QUIT]
 
         signal.signal(signal.SIGINT, self.signal_handler)
         self.sensitivity = [0.5] * len(self.models)
@@ -43,13 +45,29 @@ class VocalCommand:
         print("next")
         self.command = 'next'
 
+    def on_add(self):
+        self.detected = True
+        print("add")
+        self.command = 'add'
+
+    def on_remove(self):
+        self.detected = True
+        print("remove")
+        self.command = 'remove'
+
+    def on_quit(self):
+        self.detected = True
+        print("quit")
+        self.command = 'exit'
+
     def recognize(self):
         self.command = ''
         self.detected = False
         detector = snowboydecoder.HotwordDetector(self.models, sensitivity=self.sensitivity)
         print('Listening... Press Ctrl+C to exit')
 
-        detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next],
+        detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next,
+                                          self.on_add, self.on_remove, self.on_quit],
                interrupt_check=self.interrupt_callback,
                sleep_time=0.03)
         detector.terminate()
