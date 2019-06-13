@@ -1,6 +1,7 @@
 import snowboydecoder
 import sys
 import signal
+import time
 
 PATH = '/home/pi/repo/'
 NEXT = PATH + 'Pi-Code/vocal_command/Next.pmdl'
@@ -9,26 +10,21 @@ STOP = PATH + 'Pi-Code/vocal_command/Stop.pmdl'
 ADD = PATH + 'Pi-Code/vocal_command/Add.pmdl'
 REMOVE = PATH + 'Pi-Code/vocal_command/Remove.pmdl'
 QUIT = PATH + 'Pi-Code/vocal_command/quit.pmdl'
+TIMEOUT = 7
 
 
 class VocalCommand:
     def __init__(self):
-        self.interrupted = False
         self.detected = False
         self.command = ''
         self.models = [STOP, PLAY, NEXT, ADD, REMOVE, QUIT]
-
-        signal.signal(signal.SIGINT, self.signal_handler)
         self.sensitivity = [0.5] * len(self.models)
 
-    def signal_handler(self, signal, frame):
-        global interrupted
-        self.interrupted = True
-
     def interrupt_callback(self):
-        if self.interrupted:
-                print("interrupted")
-        return self.detected or self.interrupted
+        if time.time() - self.start > TIMEOUT:
+            print("Timeout")
+            return True
+        return self.detected
 
     def on_stop(self):
         self.detected = True
@@ -64,14 +60,13 @@ class VocalCommand:
         self.command = ''
         self.detected = False
         detector = snowboydecoder.HotwordDetector(self.models, sensitivity=self.sensitivity)
-        print('Listening... Press Ctrl+C to exit')
-
+        print('Listening... ')
+        self.start = time.time()
         detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next,
                                           self.on_add, self.on_remove, self.on_quit],
                interrupt_check=self.interrupt_callback,
                sleep_time=0.03)
         detector.terminate()
-        
         
         return self.command
 

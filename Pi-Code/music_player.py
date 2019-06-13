@@ -5,7 +5,9 @@ import interaction
 from pygame.locals import *
 import pygame.freetype
 from vocal_command.vocal_command import VocalCommand
+import tts
 from config import SONG_DIRECTORY
+
 
 SONG_END = pygame.USEREVENT + 1
 WHITE = (255, 255, 255)
@@ -118,7 +120,7 @@ class MusicPlayer:
 
         return display_surface
 
-    def vocal_command(self, channel = None):
+    def vocal_command(self, channel=None):
         pygame.mixer.music.set_volume(0.1)
         vocal_command = self.voice_recognizer.recognize()
         if vocal_command == "exit":
@@ -126,12 +128,12 @@ class MusicPlayer:
             return done
         elif vocal_command == "stop":
             self.pause()
-        elif vocal_command == "next" or vocal_command[:2]=="ne":
+        elif vocal_command == "next":
             self.next()
         elif vocal_command == "play":
             self.resume()
         elif vocal_command == "add":
-            interaction.add_relation(self.song_played,self.feeling)
+            interaction.add_relation(self.song_played, self.feeling)
             self.get_gui(self.song_played)
         elif vocal_command == 'remove':
             interaction.delete_relation(self.song_played)
@@ -139,7 +141,7 @@ class MusicPlayer:
         elif vocal_command == 'party':
             self.set_feeling(PARTY)
         else:
-            print(vocal_command)
+            tts.exception_audio()
         done = False
         return done
 
