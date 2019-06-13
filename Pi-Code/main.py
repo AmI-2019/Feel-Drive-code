@@ -15,12 +15,15 @@ HAPPINESS = 'happy'
 SADNESS = 'sad'
 EMOTION_LABELS = (ANGER, HAPPINESS, SADNESS)
 
+PARTY_MODE = False
+
 SPRAY_WINDOW = 60*9
 PERFUME = True
 
 
 if __name__ == '__main__':
     username = interaction.authenticate()
+    feeling = ""
 
     tts.initalization()
     interaction.init_emotion_server()  #remember to set camera's IP address
@@ -42,19 +45,20 @@ if __name__ == '__main__':
 
         feeling_prediction = interaction.get_emotion_prediction()
         if type(feeling_prediction) is dict:
-            hue, bri = hue_controller.compute_hue(feeling_prediction, bright_sensor.get_brightness_smooth())
+            if not player.party_on:
+                hue, bri = hue_controller.compute_hue(feeling_prediction, bright_sensor.get_brightness_smooth())
+                #brightness = bright_sensor.get_brightness()*100
+                lights.set(int(round(hue)), bri)
+                feeling = interaction.get_dominant_emotion(feeling_prediction)
 
-            #brightness = bright_sensor.get_brightness()*100
-            lights.set(int(round(hue)), bri)
+                player.set_feeling(feeling)
 
-            feeling = interaction.get_dominant_emotion(feeling_prediction)
-
-            player.set_feeling(feeling)
-
-            if PERFUME and (feeling is SADNESS or feeling is ANGER):
-                if time.time()- last_spray > SPRAY_WINDOW:
-                    last_spray = time.time()
-                    zwave.perfume()
+                if PERFUME and (feeling is SADNESS or feeling is ANGER):
+                    if time.time()- last_spray > SPRAY_WINDOW:
+                        last_spray = time.time()
+                        zwave.perfume()
+            else:
+                lights.set_party()
 
     del player
 

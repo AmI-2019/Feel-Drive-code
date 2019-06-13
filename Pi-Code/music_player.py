@@ -36,6 +36,7 @@ class MusicPlayer:
             self.__instance = self
 
         self.feeling = HAPPINESS
+        self.party_on=False
         pygame.init()
         pygame.font.init()
         self.song_list = {}
@@ -140,12 +141,14 @@ class MusicPlayer:
             self.get_gui(self.song_played)
         elif vocal_command == 'party':
             self.set_feeling(PARTY)
+            self.party_on = not self.party_on
         elif vocal_command == 'my songs':
             self.song_list = interaction.get_liked_songs(self.feeling)
             self.next()
         elif vocal_command == "shuffle":
             self.song_list = interaction.get_songs(self.feeling)
             self.next()
+
         else:
             tts.exception_audio()
         done = False
