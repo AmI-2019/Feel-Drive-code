@@ -42,10 +42,10 @@ if __name__ == '__main__':
 
         feeling_prediction = interaction.get_emotion_prediction()
         if type(feeling_prediction) is dict:
-            hue = hue_controller.compute_hue(feeling_prediction)
+            hue, bri = hue_controller.compute_hue(feeling_prediction, bright_sensor.get_brightness_smooth())
 
-            brightness = bright_sensor.get_brightness()
-            lights.set(int(round(hue)), brightness)
+            #brightness = bright_sensor.get_brightness()*100
+            lights.set(int(round(hue)), bri)
 
             feeling = interaction.get_dominant_emotion(feeling_prediction)
 
