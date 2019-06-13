@@ -1,4 +1,3 @@
-from time import sleep
 import requests
 from config import FER_SERVER, CENTRAL_API, PI_BASE_URL
 
@@ -16,14 +15,10 @@ def authenticate():
     return username
 
 
-def add_relation(song, comment, feeling):
+def add_relation(song, feeling):
         global username
-        if comment == "yes":
-            response=requests.post(CENTRAL_API + '/add_relation',
-                          json={'song': song, 'username': username, 'liked': 'True', 'feeling': feeling})
-        else:
-            requests.post(CENTRAL_API+'/add_relation',
-                          json={'song': song, 'username': username, 'liked': 'False', 'feeling' : feeling})
+        response=requests.post(CENTRAL_API + '/add_relation',
+                      json={'song': song, 'username': username, 'liked': 'True', 'feeling': feeling})
 
         print(response)
 
@@ -71,8 +66,8 @@ def is_song_liked(song):
 
 def delete_relation(song):
     global username
-    requests.post(CENTRAL_API+'/delete', json={"song":song, "username":username})
-
+    response=requests.post(CENTRAL_API+'/delete', json={"song":song, "username":username})
+    print(response)
 
 def get_dominant_emotion(predictions):
     return max(predictions, key=predictions.get)

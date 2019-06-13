@@ -73,13 +73,13 @@ def get_song(song):
     return result
 
 
-def add_relation(username,song, liked, feeling):
-    sql="""INSERT INTO relations(username, title, liked, feeling) 
-    VALUES (%s,%s,%s,%s)
+def add_relation(username,song, feeling):
+    sql="""INSERT INTO relations(username, title, feeling) 
+    VALUES (%s,%s,%s)
      """
     conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
     cursor=conn.cursor()
-    cursor.execute(sql,(username,song,liked, feeling))
+    cursor.execute(sql,(username,song, feeling))
     conn.commit()
     conn.close()
 
