@@ -29,7 +29,7 @@ class HueLights:
             # iterate over the Hue lights, turn them on with the color loop effect
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 46920, "bri": 65, , 'sat':254}
+                body = {'on': True, "hue": 46920, "bri": 65, 'sat':254}
                 requests.put(url_to_call, json=body)
 
     # arancione
@@ -37,7 +37,7 @@ class HueLights:
         if type(self.all_the_lights) is dict:
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 8000, "bri": 70, , 'sat':254}
+                body = {'on': True, "hue": 8000, "bri": 70, 'sat':254}
                 requests.put(url_to_call, json=body)
 
     # rosso
