@@ -141,15 +141,19 @@ class MusicPlayer:
             interaction.delete_relation(self.song_played)
             self.get_gui(self.song_played)
         elif vocal_command == 'party':
-            self.set_feeling(PARTY)
             self.party_on = not self.party_on
+            if self.party_on:
+                self.set_feeling(PARTY)
         elif vocal_command == 'my songs':
-            self.song_list = interaction.get_liked_songs(self.feeling)
-            self.next()
-        elif vocal_command == "shuffle":
-            self.song_list = interaction.get_songs(self.feeling)
-            self.next()
+            self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
+            if len(self.song_list[self.feeling]) > 0:
+                self.next()
+            else:
+                print("You do not have any liked song!")
 
+        elif vocal_command == "shuffle":
+            self.song_list[self.feeling] = interaction.get_songs(self.feeling)
+            self.next()
         else:
             tts.exception_audio()
         done = False
