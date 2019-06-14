@@ -85,7 +85,7 @@ def add_relation(username,song, feeling):
 
 
 def get_liked_songs_by_feeling(username, feeling):
-    sql="""SELECT song_title FROM relations
+    sql="""SELECT title FROM relations
     WHERE feeling=%s AND username=%s
     """
     conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
@@ -154,4 +154,4 @@ def check_user_song_relation(song,username):
 
 
 if __name__ == '__main__':
-    load_db('C:/Users/Pietro/Desktop/Feel & Drive/music/')
+    load_db('D:/music/')
