@@ -40,14 +40,21 @@ class MusicPlayer:
         pygame.init()
         pygame.font.init()
         self.song_list = {}
-        for emotion in EMOTION_LABELS:
-            self.song_list[emotion] = interaction.get_songs(emotion)
+        self.favourites=False
+        self.load_song_list()
         print(self.song_list)
         os.chdir(SONG_DIRECTORY)
         pygame.mixer.music.set_endevent(SONG_END)
         pygame.mixer.music.set_volume(1.0)
         self.voice_recognizer = VocalCommand()
         self.next()
+
+    def load_song_list(self, favourites=False):
+        for emotion in EMOTION_LABELS:
+            if favourites:
+                self.song_list[emotion] = interaction.get_liked_songs(emotion)
+            else:
+                self.song_list[emotion] = interaction.get_songs(emotion)
 
     def __del__(self):
         pygame.quit()
@@ -62,6 +69,12 @@ class MusicPlayer:
         pygame.mixer.music.pause()
 
     def next(self):
+        # if there are no liked songs, then switch back to play all songs!
+        if len(self.song_list[self.feeling]) == 0:
+            print("Yuo do not have any liked song associated with the current emotion!")
+            print("Switching back to play our songs")
+            self.favourites = False
+            self.load_song_list(favourites=False)
         index = random.randint(0, len(self.song_list[self.feeling]) - 1)
         self.song_played = self.song_list[self.feeling][index]
         pygame.mixer.music.load(self.feeling+'/'+self.song_list[self.feeling][index])
@@ -136,23 +149,30 @@ class MusicPlayer:
             self.resume()
         elif vocal_command == "add":
             interaction.add_relation(self.song_played, self.feeling)
+            # if playing in favourite mode, the song must be added to the playlist
+            if self.favourites:
+                self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
             self.get_gui(self.song_played)
         elif vocal_command == 'remove':
             interaction.delete_relation(self.song_played)
+            # if playing in favourite mode, the song must be removed from the playlist
+            # and another song must be played
+            if self.favourites:
+                self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
+                self.next()
             self.get_gui(self.song_played)
         elif vocal_command == 'party':
             self.party_on = not self.party_on
             if self.party_on:
                 self.set_feeling(PARTY)
         elif vocal_command == 'my songs':
-            self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
-            if len(self.song_list[self.feeling]) > 0:
-                self.next()
-            else:
-                print("You do not have any liked song!")
+            self.load_song_list(favourites=True)
+            self.favourites = True
+            self.next()
 
         elif vocal_command == "shuffle":
-            self.song_list[self.feeling] = interaction.get_songs(self.feeling)
+            self.load_song_list()
+            self.favourites=False
             self.next()
         else:
             tts.exception_audio()
