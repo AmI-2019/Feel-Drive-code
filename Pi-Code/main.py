@@ -47,8 +47,7 @@ if __name__ == '__main__':
         if type(feeling_prediction) is dict:
             if not player.party_on:
                 hue, bri = hue_controller.compute_hue(feeling_prediction, bright_sensor.get_brightness_smooth())
-                #brightness = bright_sensor.get_brightness()*100
-                lights.set(int(round(hue)), bri)
+                lights.set(int(round(hue)), int(round(bri)))
                 feeling = interaction.get_dominant_emotion(feeling_prediction)
 
                 player.set_feeling(feeling)
