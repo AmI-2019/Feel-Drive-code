@@ -13,7 +13,8 @@ CLOSE = PATH + 'Pi-Code/vocal_command/Close.pmdl'
 PARTY = PATH + 'Pi-Code/vocal_command/Party.pmdl'
 SHUFFLE = PATH + 'Pi-Code/vocal_command/shuffle.pmdl'
 MY_SONGS = PATH + 'Pi-Code/vocal_command/My_songs.pmdl'
-TIMEOUT = 7
+TIMEOUT = 4
+SENSITIVITY = 0.44
 
 
 class VocalCommand:
@@ -21,7 +22,7 @@ class VocalCommand:
         self.detected = False
         self.command = ''
         self.models = [STOP, PLAY, NEXT, ADD, REMOVE, CLOSE, PARTY, SHUFFLE, MY_SONGS]
-        self.sensitivity = [0.5] * len(self.models)
+        self.sensitivity = [SENSITIVITY] * len(self.models)
 
     def interrupt_callback(self):
         if time.time() - self.start > TIMEOUT:
