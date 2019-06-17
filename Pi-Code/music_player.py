@@ -121,6 +121,9 @@ class MusicPlayer:
     def set_volume(self, vol):
         pygame.mixer.music.set_volume(vol)
 
+    def refresh(self):
+        pygame.display.flip()
+
     def get_gui(self, song):
         display_surface = pygame.display.set_mode((600, 600))
         pygame.display.set_caption('Feel & Drive: music player')
@@ -164,17 +167,16 @@ class MusicPlayer:
 
     def handle_event(self):
         done = False
+        get_vocal_command = False
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 done = True
             elif ev.type == KEYDOWN:
-                done = self.vocal_command()
+                get_vocal_command = True
             elif ev.type == SONG_END:
                 self.next()
-
             pygame.mixer.music.set_volume(1.0)
-            pygame.display.flip()
-        return done
+        return done, get_vocal_command
 
 
 # usage example

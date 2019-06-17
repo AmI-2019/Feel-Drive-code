@@ -79,7 +79,11 @@ class FeelAndDrive:
         return done
 
     def run(self):
-        quit_player = self.player.handle_event()
+        quit_player, voice = self.player.handle_event()
+        if quit_player:
+            return quit_player
+        if voice:
+            self.get_vocal_command()
         feeling_prediction = interaction.get_emotion_prediction()
         if type(feeling_prediction) is dict:
             if not self.player.party_on:
@@ -96,6 +100,7 @@ class FeelAndDrive:
                 self.perfume.spray()
             else:
                 self.lights.set_party()
+        self.player.refresh()
         return quit_player
 
     def close(self):
@@ -108,5 +113,5 @@ if __name__ == '__main__':
     fd = FeelAndDrive()
     terminate = fd.run()
     while not terminate:
-        fd.run()
+        terminate = fd.run()
     fd.close()
