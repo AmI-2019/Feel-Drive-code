@@ -42,6 +42,7 @@ class HueController:
         self.hue_controller.input['happy'] = emotions['happy']
         self.hue_controller.input['sad'] = emotions['sad']
         self.hue_controller.input['angry'] = emotions['angry']
+        self.hue_controller.input['neutral'] = emotions['neutral']
         self.hue_controller.input['lsr'] = lsr
         self.hue_controller.compute()
         return self.hue_controller.output['hue'], self.hue_controller.output['brightness']
