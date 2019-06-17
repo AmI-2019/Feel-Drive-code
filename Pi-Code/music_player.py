@@ -36,11 +36,12 @@ class MusicPlayer:
             self.__instance = self
 
         self.feeling = HAPPINESS
-        self.party_on=False
+        self.party_on = False
+        self.lights_on = True
         pygame.init()
         pygame.font.init()
         self.song_list = {}
-        self.favourites=False
+        self.favourites = False
         self.load_song_list()
         print(self.song_list)
         os.chdir(SONG_DIRECTORY)
@@ -165,6 +166,8 @@ class MusicPlayer:
             self.party_on = not self.party_on
             if self.party_on:
                 self.set_feeling(PARTY)
+        elif vocal_command == 'lights':
+            self.lights_on = not self.lights_on
         elif vocal_command == 'my songs':
             self.load_song_list(favourites=True)
             self.favourites = True

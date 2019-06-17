@@ -1,7 +1,7 @@
 import requests
 import time
 from config import HUE_USERNAME, HUE_BASE_URL
-HUE_ID = '6'
+HUE_ID = '12'
 HUE_EMULATOR_ID = '1'
 HUE_EMULATOR = False
 
@@ -11,7 +11,7 @@ class HueLights:
         if HUE_EMULATOR:
             self.light = HUE_EMULATOR_ID
         else:
-            self.light = '6'
+            self.light = '12'
         self.base_url = base_url
         self.username = username
         self.lights_url = self.base_url + '/api/' + self.username + '/lights/'
@@ -20,7 +20,7 @@ class HueLights:
     def set(self, hue, bri, sat=254):
         if type(self.all_the_lights) is dict:
             url_to_call = self.lights_url + self.light + '/state'
-            body = {'on': True, "hue": hue, 'bri': bri, 'sat': sat, 'effect': 'none'}
+            body = {'on': True, "hue": hue, 'bri': bri, 'sat': sat, 'effect': 'none', 'transitiontime':1}
             requests.put(url_to_call, json=body)
 
     # azzurro

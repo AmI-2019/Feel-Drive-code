@@ -47,11 +47,13 @@ if __name__ == '__main__':
         if type(feeling_prediction) is dict:
             if not player.party_on:
                 feeling = interaction.get_dominant_emotion(feeling_prediction)
-                hue, bri, sat = hue_controller.compute_hue(feeling_prediction, bright_sensor.get_brightness_smooth())
-                hue = interaction.emotion_to_hue(feeling)
-                lights.set(int(round(hue)), int(round(bri)), int(round(sat)))
-
-
+                if player.lights_on:
+                    hue, bri, sat = hue_controller.compute_hue(feeling_prediction,
+                                                               bright_sensor.get_brightness_smooth())
+                    hue = interaction.emotion_to_hue(feeling)
+                    lights.set(int(round(hue)), int(round(bri)), int(round(sat)))
+                else:
+                    lights.off()
                 player.set_feeling(feeling)
 
                 if PERFUME and (feeling == SADNESS or feeling == ANGER):
