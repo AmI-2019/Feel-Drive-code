@@ -9,6 +9,7 @@ class HueController:
         self.happy = ctrl.Antecedent(np.arange(0, 1, 0.01), 'happy')
         self.sad = ctrl.Antecedent(np.arange(0, 1, 0.01), 'sad')
         self.angry = ctrl.Antecedent(np.arange(0, 1, 0.01), 'angry')
+        self.neutral = ctrl.Antecedent(np.arange(0, 1, 0.01), 'neutral')
         self.lsr = ctrl.Antecedent(np.arange(0, 1, 0.01), 'lsr')
 
         self.hue = ctrl.Consequent(np.arange(0, 65280, 1), 'hue')
@@ -25,11 +26,12 @@ class HueController:
         self.happy.automf(3)
         self.sad.automf(3)
         self.angry.automf(3)
+        self.neutral.automf(3)
 
+        self.rule1 = ctrl.Rule(self.angry['good'] | self.angry['average'], self.hue['blue'])
+        self.rule2 = ctrl.Rule(self.sad['good'] | self.sad['average'], self.hue['red'])
 
-        self.rule1 = ctrl.Rule(self.angry['good'] | self.angry['average'], self.hue['red'])
-        self.rule2 = ctrl.Rule(self.sad['good'], self.hue['blue'])
-        self.rule3 = ctrl.Rule(self.happy['good'], self.hue['green'])
+        self.rule3 = ctrl.Rule(self.happy['good'] | self.happy['average'] | self.neutral['good'], self.hue['green'])
         self.rule4 = ctrl.Rule(self.lsr['dark'], self.brightness['dark'])
         self.rule5 = ctrl.Rule(self.lsr['bright'], self.brightness['bright'])
 

@@ -52,6 +52,9 @@ def close_emotion_server():
 
 def get_emotion_prediction():
     response = requests.get(FER_SERVER + '/predictions').json()
+    del response['surprise']
+    del response['disgust']
+    del response['fear']
     return response
 
 
