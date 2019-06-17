@@ -16,7 +16,7 @@ class Perfume:
 
         return all_devices
 
-    def set_value(device, instance, value):
+    def set_value(self, device, instance, value):
         url_to_call = (DEVICE_URL + '.Set(' + str(value) + ')').format(device, instance, SWITCH_BINARY)
         requests.get(url_to_call, auth=(Z_USERNAME, Z_PASSWORD))
 
