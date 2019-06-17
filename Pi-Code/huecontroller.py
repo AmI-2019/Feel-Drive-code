@@ -14,14 +14,18 @@ class HueController:
 
         self.hue = ctrl.Consequent(np.arange(0, 65280, 1), 'hue')
         self.brightness = ctrl.Consequent(np.arange(0, 100, 1), 'brightness')
+        self.sat = ctrl.Consequent(np.arange(220,254,254), 'sat')
 
-        self.hue['blue'] = fuzz.trimf(self.hue.universe, [40920, 46920, 49920])
-        self.hue['green'] = fuzz.trimf(self.hue.universe, [9500, 12750, 16250])
-        self.hue['red'] = fuzz.trimf(self.hue.universe, [62280, 65280, 65280])
+        self.hue['blue'] = fuzz.trimf(self.hue.universe, [46620, 46920, 47320])
+        self.hue['green'] = fuzz.trimf(self.hue.universe, [21900, 22000, 22100])
+
+        self.hue['red'] = fuzz.trimf(self.hue.universe, [64780, 65280, 65280])
         self.lsr['bright'] = fuzz.trimf(self.lsr.universe, [0.50, 1, 1])
         self.lsr['dark'] = fuzz.trimf(self.lsr.universe, [0, 0, 0.50])
         self.brightness['bright'] = fuzz.trimf(self.brightness.universe, [60, 100, 100])
         self.brightness['dark'] = fuzz.trimf(self.brightness.universe, [25, 25, 60])
+        self.sat['good'] = fuzz.trimf(self.sat.universe, [242, 254, 254])
+        self.sat['average'] = fuzz.trimf(self.sat.universe, [220, 220, 242])
 
         self.happy.automf(3)
         self.sad.automf(3)
@@ -34,9 +38,12 @@ class HueController:
         self.rule3 = ctrl.Rule(self.happy['good'] | self.happy['average'] | self.neutral['good'], self.hue['green'])
         self.rule4 = ctrl.Rule(self.lsr['dark'], self.brightness['dark'])
         self.rule5 = ctrl.Rule(self.lsr['bright'], self.brightness['bright'])
+        self.rule6 = ctrl.Rule(self.angry['good'] | self.sad['good'] | self.sat['good'])
+        self.rule7 = ctrl.Rule(self.angry['average'] | self.sad['average'] | self.sat['average'])
+        # self.rule6 = ctrl.Rule(self.angry['good'] | self.sad['good'] | self.sat['good'])
 
         self.hue_controller = ctrl.ControlSystemSimulation(ctrl.ControlSystem([self.rule1, self.rule2, self.rule3,
-                                                                               self.rule4, self.rule5]))
+                                                                               self.rule4, self.rule5, self.rule6, self.rule7]))
 
     def compute_hue(self, emotions, lsr):
         self.hue_controller.input['happy'] = emotions['happy']
@@ -45,4 +52,4 @@ class HueController:
         self.hue_controller.input['neutral'] = emotions['neutral']
         self.hue_controller.input['lsr'] = lsr
         self.hue_controller.compute()
-        return self.hue_controller.output['hue'], self.hue_controller.output['brightness']
+        return self.hue_controller.output['hue'], self.hue_controller.output['brightness'], self.hue_controller.output['sat']
