@@ -17,10 +17,10 @@ class HueLights:
         self.lights_url = self.base_url + '/api/' + self.username + '/lights/'
         self.all_the_lights = requests.get(self.lights_url).json()
 
-    def set(self, hue, bri):
+    def set(self, hue, bri, sat=254):
         if type(self.all_the_lights) is dict:
             url_to_call = self.lights_url + self.light + '/state'
-            body = {'on': True, "hue": hue, 'bri': bri, 'sat':254, 'effect': 'none'}
+            body = {'on': True, "hue": hue, 'bri': bri, 'sat': sat, 'effect': 'none'}
             requests.put(url_to_call, json=body)
 
     # azzurro
