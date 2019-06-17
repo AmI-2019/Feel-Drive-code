@@ -10,6 +10,18 @@
         <form action="{{ url_for('registration') }}" method="post">
             <p>Username: <input type="text" name = "username"></p>
             <p>Password: <input type="password" name = "password"> </p>
+            <legend>Favourite color</legend><br>
+            <input type="checkbox" name="color" value="0"/> Red
+            <br />
+            <input type="checkbox" name="color" value="8000"/> Orange
+            <br />
+            <input type="checkbox" name="color" value="46920"/> Blue
+            <br />
+            <input type="checkbox" name="color" value="56000"/> Purple
+            <br />
+            <input type="checkbox" name="color" value="22000"/> Green
+            <br />
+
             <input type="submit" value="Register">
         </form>
     </div>

@@ -37,13 +37,13 @@ def check_user(u):
     return result
 
 
-def add_user(u,p):
-    sql="""INSERT INTO users(username, password) 
-    VALUES (%s,%s)
+def add_user(u,p,c):
+    sql="""INSERT INTO users(username, password, color) 
+    VALUES (%s,%s,%s)
      """
     conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
     cursor=conn.cursor()
-    cursor.execute(sql,(u,p))
+    cursor.execute(sql,(u,p,c))
     conn.commit()
     conn.close()
 
@@ -151,7 +151,14 @@ def check_user_song_relation(song,username):
     result = cursor.fetchone()
     return  result
 
-
+def get_color(username):
+    sql = """SELECT color FROM users WHERE username=%s
+    """
+    conn = pymysql.connect(user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database='feel&drive')
+    cursor = conn.cursor()
+    cursor.execute(sql, (username))
+    result = cursor.fetchone()
+    return result
 
 if __name__ == '__main__':
     load_db('D:/music/')

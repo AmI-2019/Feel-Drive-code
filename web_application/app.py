@@ -18,7 +18,7 @@ def home():
         authenticated = True
     return render_template("login.html", status = authenticated)
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['POST','GET'])
 def login():
     username = request.form["username"]
     password = request.form["password"]
@@ -39,14 +39,14 @@ def registration_page():
 def registration():
     username = request.form["username"]
     password = request.form["password"]
-
+    color = int(request.form["color"])
     if username == "" or password == "":
         return redirect(url_for("registration_error",status=True))
 
     result=db_interaction.check_user(username)
 
     if result is None:
-        db_interaction.add_user(username,password)
+        db_interaction.add_user(username,password,color)
         session["user_id"] = result
         return redirect(url_for("registration_succeed"))
     else:
@@ -57,6 +57,7 @@ def registration():
 def logout():
     del session["user_id"]
     return redirect(url_for("home"))
+
 
 
 @app.route('/delete_relation/<string:username>/<string:song>')
@@ -137,6 +138,13 @@ def REST_delete_relation():
     db_interaction.delete_relation(username, song)
 
     return jsonify("200")
+
+@app.route(api_endopoint+'/color',methods=['GET'])
+def REST_get_color():
+    payload=request.json
+    username=payload['username']
+    result=db_interaction.get_color(username)
+    return jsonify(result)
 
 
 if __name__ == '__main__':

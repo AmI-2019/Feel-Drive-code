@@ -90,5 +90,11 @@ def map_emotion_label(label):
         return label
 
 
+def get_color():
+    global username
+    response=requests.get(CENTRAL_API+'/color', json = {'username':username}).json()
+    return response
+
 if __name__ == '__main__':
-    add_relation('Dancing Queen - Abba.mp3','yes','Happiness')
+    authenticate()
+    print(get_color())
