@@ -13,6 +13,8 @@ CLOSE = PATH + 'Pi-Code/vocal_command/Close.pmdl'
 PARTY = PATH + 'Pi-Code/vocal_command/Party.pmdl'
 SHUFFLE = PATH + 'Pi-Code/vocal_command/shuffle.pmdl'
 MY_SONGS = PATH + 'Pi-Code/vocal_command/My_songs.pmdl'
+LIGHTS = PATH + 'Pi-Code/vocal_command/Lights.pmdl'
+PERFUME = PATH + 'Pi-Code/vocal_command/Perfume.pmdl'
 TIMEOUT = 4
 SENSITIVITY = 0.44
 
@@ -21,7 +23,7 @@ class VocalCommand:
     def __init__(self):
         self.detected = False
         self.command = ''
-        self.models = [STOP, PLAY, NEXT, ADD, REMOVE, CLOSE, PARTY, SHUFFLE, MY_SONGS]
+        self.models = [STOP, PLAY, NEXT, ADD, REMOVE, CLOSE, PARTY, MY_SONGS, LIGHTS, PERFUME]
         self.sensitivity = [SENSITIVITY] * len(self.models)
 
     def interrupt_callback(self):
@@ -75,6 +77,16 @@ class VocalCommand:
         print("my songs")
         self.command = 'my songs'
 
+    def on_lights(self):
+        self.detected = True
+        print("lights")
+        self.command = 'lights'
+
+    def on_perfume(self):
+        self.detected = True
+        print("perfume")
+        self.command = 'perfume'
+
     def recognize(self):
         self.command = ''
         self.detected = False
@@ -83,7 +95,8 @@ class VocalCommand:
         self.start = time.time()
         detector.start(detected_callback=[self.on_stop, self.on_play, self.on_next,
                                           self.on_add, self.on_remove, self.on_close,
-                                          self.on_party, self.on_shuffle, self.on_my_songs
+                                          self.on_party, self.on_my_songs, self.on_lights,
+                                          self.on_perfume
                                           ],
                interrupt_check=self.interrupt_callback,
                sleep_time=0.03)
