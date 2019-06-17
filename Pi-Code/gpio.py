@@ -53,8 +53,9 @@ class BrightnessSensor:
             self.values.get()
             self.values.put(val)
             avg = statistics.mean(list(self.values.queue))
-            print("mean: ")
-            print(avg)
+            if DEBUG:
+                print("mean: ")
+                print(avg)
             return avg
         else:
             self.values.put(val)
