@@ -4,8 +4,6 @@ import pygame
 import interaction
 from pygame.locals import *
 import pygame.freetype
-from vocal_command.vocal_command import VocalCommand
-import tts
 from config import SONG_DIRECTORY
 
 
@@ -47,7 +45,6 @@ class MusicPlayer:
         os.chdir(SONG_DIRECTORY)
         pygame.mixer.music.set_endevent(SONG_END)
         pygame.mixer.music.set_volume(1.0)
-        self.voice_recognizer = VocalCommand()
         self.next()
 
     def load_song_list(self, favourites=False):
@@ -92,7 +89,37 @@ class MusicPlayer:
             self.next()
         return old_feeling
 
+    def set_party_mode(self, party=True):
+        self.party_on = party
 
+    def add_song_to_favourites(self):
+        interaction.add_relation(self.song_played, self.feeling)
+        # if playing in favourite mode, the song must be added to the playlist
+        if self.favourites:
+            self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
+        self.get_gui(self.song_played)
+
+    def remove_song_from_favourites(self):
+        interaction.delete_relation(self.song_played)
+        # if playing in favourite mode, the song must be removed from the playlist
+        # and another song must be played
+        if self.favourites:
+            self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
+            self.next()
+        self.get_gui(self.song_played)
+
+    def set_favourites_mode(self, favourites_only=False):
+        if favourites_only:
+            self.load_song_list(favourites=True)
+            self.favourites = True
+            self.next()
+        else:
+            self.load_song_list()
+            self.favourites = False
+            self.next()
+
+    def set_volume(self, vol):
+        pygame.mixer.music.set_volume(vol)
 
     def get_gui(self, song):
         display_surface = pygame.display.set_mode((600, 600))
@@ -135,61 +162,13 @@ class MusicPlayer:
 
         return display_surface
 
-    def vocal_command(self, channel=None):
-        pygame.mixer.music.set_volume(0.1)
-        tts.start_speak()
-        vocal_command = self.voice_recognizer.recognize()
-        if vocal_command == "exit":
-            done = True
-            return done
-        elif vocal_command == "stop":
-            self.pause()
-        elif vocal_command == "next":
-            self.next()
-        elif vocal_command == "play":
-            self.resume()
-        elif vocal_command == "add":
-            interaction.add_relation(self.song_played, self.feeling)
-            # if playing in favourite mode, the song must be added to the playlist
-            if self.favourites:
-                self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
-            self.get_gui(self.song_played)
-        elif vocal_command == 'remove':
-            interaction.delete_relation(self.song_played)
-            # if playing in favourite mode, the song must be removed from the playlist
-            # and another song must be played
-            if self.favourites:
-                self.song_list[self.feeling] = interaction.get_liked_songs(self.feeling)
-                self.next()
-            self.get_gui(self.song_played)
-        elif vocal_command == 'party':
-            self.party_on = not self.party_on
-            if self.party_on:
-                self.set_feeling(PARTY)
-        elif vocal_command == 'lights':
-            self.lights_on = not self.lights_on
-        elif vocal_command == 'my songs':
-            self.load_song_list(favourites=True)
-            self.favourites = True
-            self.next()
-
-        elif vocal_command == "shuffle":
-            self.load_song_list()
-            self.favourites=False
-            self.next()
-        else:
-            tts.exception_audio()
-        done = False
-        return done
-
-
     def handle_event(self):
         done = False
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 done = True
             elif ev.type == KEYDOWN:
-                done=self.vocal_command()
+                done = self.vocal_command()
             elif ev.type == SONG_END:
                 self.next()
 
