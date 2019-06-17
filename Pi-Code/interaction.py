@@ -91,7 +91,7 @@ def map_emotion_label(label):
 
 def emotion_to_hue(emotion):
     if emotion == 'Happiness':
-        return 22000
+        return get_color()
     elif emotion == 'Motivational':
         return 0
     elif emotion == 'Relax':
@@ -100,11 +100,10 @@ def emotion_to_hue(emotion):
         return 0
 
 
-
 def get_color():
     global username
     response=requests.get(CENTRAL_API+'/color', json = {'username':username}).json()
-    return response
+    return response[0]
 
 if __name__ == '__main__':
     authenticate()
