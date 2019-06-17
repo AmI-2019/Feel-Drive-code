@@ -50,11 +50,13 @@ def init_emotion_server(camera_address=PI_BASE_URL):
 def close_emotion_server():
     requests.get(FER_SERVER+'/stop')
 
+
 def get_emotion_prediction():
     response = requests.get(FER_SERVER + '/predictions').json()
-    del response['surprise']
-    del response['disgust']
-    del response['fear']
+    if type(response) is dict:
+        del response['surprise']
+        del response['disgust']
+        del response['fear']
     return response
 
 
