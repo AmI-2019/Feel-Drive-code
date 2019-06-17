@@ -18,7 +18,7 @@ def home():
         authenticated = True
     return render_template("login.html", status = authenticated)
 
-@app.route("/login", methods=['POST','GET'])
+@app.route("/login", methods=['GET'])
 def login():
     username = request.form["username"]
     password = request.form["password"]

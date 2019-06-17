@@ -1,7 +1,7 @@
-SONG_DIRECTORY = '/media/pi/2E00-9AA8/music/' #'C:/Users/Pietro/Desktop/Feel & Drive/music'
-CENTRAL_API = 'http://192.168.0.3:5000/api/v1'
-FER_SERVER = 'http://192.168.0.34:5001/fer-server'
-PI_BASE_URL = 'localhost'
+SONG_DIRECTORY =  'C:/Users/Pietro/Desktop/Feel & Drive/music' #'/media/pi/2E00-9AA8/music/Happiness'
+CENTRAL_API = 'http://192.168.0.19:5000/api/v1'
+FER_SERVER = 'http://192.168.0.34:5000/fer-server'
+PI_BASE_URL = 'http://192.168.0.8'
 
 #Z-wave config
 Z_BASE_URL = 'http://localhost:8083'
