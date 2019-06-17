@@ -3,7 +3,7 @@ import time
 from config import HUE_USERNAME, HUE_BASE_URL
 HUE_ID = '6'
 HUE_EMULATOR_ID = '1'
-HUE_EMULATOR = True
+HUE_EMULATOR = False
 
 
 class HueLights:
@@ -20,7 +20,7 @@ class HueLights:
     def set(self, hue, bri):
         if type(self.all_the_lights) is dict:
             url_to_call = self.lights_url + self.light + '/state'
-            body = {'on': True, "hue": hue, 'bri': bri, 'sat':254}
+            body = {'on': True, "hue": hue, 'bri': bri, 'sat':254, 'effect': 'none'}
             requests.put(url_to_call, json=body)
 
     # azzurro
@@ -29,7 +29,7 @@ class HueLights:
             # iterate over the Hue lights, turn them on with the color loop effect
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 46920, "bri": 65, 'sat':254}
+                body = {'on': True, "hue": 46920, "bri": 65, 'sat': 254, 'effect':'none'}
                 requests.put(url_to_call, json=body)
 
     # arancione
@@ -37,7 +37,7 @@ class HueLights:
         if type(self.all_the_lights) is dict:
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 8000, "bri": 70, 'sat':254}
+                body = {'on': True, "hue": 8000, "bri": 70, 'sat':254, 'effect':'none'}
                 requests.put(url_to_call, json=body)
 
     # rosso
@@ -45,7 +45,7 @@ class HueLights:
         if type(self.all_the_lights) is dict:
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 0, "bri": 75, 'sat':254}
+                body = {'on': True, "hue": 0, "bri": 75, 'sat':254, 'effect':'none'}
                 requests.put(url_to_call, json=body)
 
     # viola
@@ -53,7 +53,7 @@ class HueLights:
         if type(self.all_the_lights) is dict:
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 56000, "bri": 95, 'sat':254}
+                body = {'on': True, "hue": 56000, "bri": 95, 'sat':254, 'effect':'none'}
                 requests.put(url_to_call, json=body)
 
     # verde
@@ -61,7 +61,7 @@ class HueLights:
         if type(self.all_the_lights) is dict:
             #for light in self.all_the_lights:
                 url_to_call = self.lights_url + self.light + '/state'
-                body = {'on': True, "hue": 22000, "bri": 50, 'sat':254}
+                body = {'on': True, "hue": 22000, "bri": 50, 'sat':254, 'effect':'none'}
                 requests.put(url_to_call, json=body)
 
     def set_party(self):
@@ -84,8 +84,10 @@ class HueLights:
 if __name__ == '__main__':
     lights = HueLights(HUE_BASE_URL, HUE_USERNAME)
 
+    lights.set_party()
+    time.sleep(5)
     lights.set_sad()
-    time.sleep(2)
+    time.sleep(10)
     lights.set_happy()
     time.sleep(2)
     lights.set_green()
@@ -93,7 +95,6 @@ if __name__ == '__main__':
     lights.set_angry()
     time.sleep(2)
     lights.set_purple()
-    # lights.set_party()
     time.sleep(2)
     lights.off()
 
