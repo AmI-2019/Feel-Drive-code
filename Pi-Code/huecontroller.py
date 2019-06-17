@@ -14,7 +14,7 @@ class HueController:
 
         self.hue = ctrl.Consequent(np.arange(0, 65280, 1), 'hue')
         self.brightness = ctrl.Consequent(np.arange(0, 100, 1), 'brightness')
-        self.sat = ctrl.Consequent(np.arange(220,254,254), 'sat')
+        self.sat = ctrl.Consequent(np.arange(220, 254, 1), 'sat')
 
         self.hue['blue'] = fuzz.trimf(self.hue.universe, [46620, 46920, 47320])
         self.hue['green'] = fuzz.trimf(self.hue.universe, [21900, 22000, 22100])
