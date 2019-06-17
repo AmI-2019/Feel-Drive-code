@@ -84,10 +84,21 @@ def map_emotion_label(label):
         return 'Relax'
     elif label == 'sad':
         return 'Motivational'
-    elif label == 'happy':
+    elif label == 'happy' or label == 'neutral':
         return 'Happiness'
     else:
         return label
+
+def emotion_to_hue(emotion):
+    if emotion == 'Happiness':
+        return 22000
+    elif emotion == 'Motivational':
+        return 0
+    elif emotion == 'Relax':
+        return 46920
+    else:
+        return 0
+
 
 
 def get_color():
