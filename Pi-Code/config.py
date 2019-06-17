@@ -1,10 +1,10 @@
-SONG_DIRECTORY =  'C:/Users/Pietro/Desktop/Feel & Drive/music' #'/media/pi/2E00-9AA8/music/Happiness'
+SONG_DIRECTORY = '/media/pi/2E00-9AA8/music/' #'C:/Users/Pietro/Desktop/Feel & Drive/music'
 CENTRAL_API = 'http://192.168.0.3:5000/api/v1'
-FER_SERVER = 'http://192.168.0.34:5000/fer-server'
-PI_BASE_URL = 'http://192.168.0.8'
+FER_SERVER = 'http://192.168.0.34:5001/fer-server'
+PI_BASE_URL = 'localhost'
 
 #Z-wave config
-Z_BASE_URL = 'http://192.168.0.21:8083'
+Z_BASE_URL = 'http://localhost:8083'
 Z_USERNAME = 'admin'
 Z_PASSWORD = 'AmI2019'
 DEVICE_URL = Z_BASE_URL + '/ZWaveAPI/Run/devices[{}].instances[{}].commandClasses[{}]'
