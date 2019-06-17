@@ -35,7 +35,6 @@ class MusicPlayer:
 
         self.feeling = HAPPINESS
         self.party_on = False
-        self.lights_on = True
         pygame.init()
         pygame.font.init()
         self.song_list = {}

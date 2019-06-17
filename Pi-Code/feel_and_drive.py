@@ -58,18 +58,23 @@ class FeelAndDrive:
             self.player.add_song_to_favourites()
         elif vocal_command == 'remove':
             self.player.remove_song_from_favourites()
+            # To prevent discrepancy between local and player flag
+            self.favourites_mode = self.player.favourites
         elif vocal_command == 'party':
             self.party_mode = not self.party_mode
             self.player.set_party_mode(party=self.party_mode)
             if self.party_mode:
                 self.player.set_feeling(music_player.PARTY)
-        elif vocal_command == 'lights':
-            self.lights_on = not self.lights_on
         elif vocal_command == 'my songs':
             self.favourites_mode = not self.favourites_mode
             self.player.set_favourites_mode(self.favourites_mode)
+            # switching to favourites mode when no liked song are available
+            # requires to reset the favourites_mode flag
+            self.favourites_mode = self.player.favourites
         elif vocal_command == 'lights':
             self.lights_on = not self.lights_on
+            if not self.lights_on:
+                self.lights.off()
         elif vocal_command == 'perfume':
             self.perfume.spray(force=True)
         else:
@@ -83,18 +88,18 @@ class FeelAndDrive:
         if quit_player:
             return quit_player
         if voice:
-            self.get_vocal_command()
+            if self.get_vocal_command():
+                return True
+
         feeling_prediction = interaction.get_emotion_prediction()
         if type(feeling_prediction) is dict:
             if not self.player.party_on:
                 feeling = interaction.get_dominant_emotion(feeling_prediction)
-                if self.player.lights_on:
+                if self.lights_on:
                     hue, bri, sat = self.hue_controller.compute_hue(feeling_prediction,
                                                                     self.bright_sensor.get_brightness_smooth())
                     hue = interaction.emotion_to_hue(feeling)
                     self.lights.set(int(round(hue)), int(round(bri)), int(round(sat)))
-                else:
-                    self.lights.off()
                 self.player.set_feeling(feeling)
 
                 self.perfume.spray()
@@ -105,7 +110,7 @@ class FeelAndDrive:
 
     def close(self):
         del self.player
-        self.interaction.close_emotion_server()
+        interaction.close_emotion_server()
         self.lights.off()
 
 
