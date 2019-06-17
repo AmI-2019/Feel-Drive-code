@@ -1,16 +1,6 @@
 import requests
 import time
-
-
-Z_BASE_URL = 'http://localhost:8083'
-
-
-Z_USERNAME = 'admin'
-Z_PASSWORD = 'AmI2019'
-
-DEVICE_URL = Z_BASE_URL + '/ZWaveAPI/Run/devices[{}].instances[{}].commandClasses[{}]'
-
-SWITCH_BINARY = '37'
+from config import Z_BASE_URL, Z_USERNAME, Z_PASSWORD, DEVICE_URL, SWITCH_BINARY
 
 
 def get_all_devices():

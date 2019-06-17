@@ -3,6 +3,18 @@ CENTRAL_API = 'http://192.168.0.3:5000/api/v1'
 FER_SERVER = 'http://192.168.0.34:5000/fer-server'
 PI_BASE_URL = 'http://192.168.0.8'
 
+#Z-wave config
+Z_BASE_URL = 'http://192.168.0.21:8083'
+Z_USERNAME = 'admin'
+Z_PASSWORD = 'AmI2019'
+DEVICE_URL = Z_BASE_URL + '/ZWaveAPI/Run/devices[{}].instances[{}].commandClasses[{}]'
+SWITCH_BINARY = '37'
+
+
+
+
+
+
 # HUE LIGHTS
 #HUE_BASE_URL = 'http://localhost:80'
 HUE_BASE_URL = 'http://192.168.0.201'
