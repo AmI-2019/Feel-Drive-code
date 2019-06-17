@@ -54,8 +54,8 @@ if __name__ == '__main__':
 
                 player.set_feeling(feeling)
 
-                if PERFUME and (feeling is SADNESS or feeling is ANGER):
-                    if time.time()- last_spray > SPRAY_WINDOW:
+                if PERFUME and (feeling == SADNESS or feeling == ANGER):
+                    if time.time() - last_spray > SPRAY_WINDOW:
                         last_spray = time.time()
                         zwave.perfume()
             else:

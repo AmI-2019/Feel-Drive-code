@@ -18,7 +18,6 @@ class HueController:
 
         self.hue['blue'] = fuzz.trimf(self.hue.universe, [46620, 46920, 47320])
         self.hue['green'] = fuzz.trimf(self.hue.universe, [21900, 22000, 22100])
-
         self.hue['red'] = fuzz.trimf(self.hue.universe, [64780, 65280, 65280])
         self.lsr['bright'] = fuzz.trimf(self.lsr.universe, [0.50, 1, 1])
         self.lsr['dark'] = fuzz.trimf(self.lsr.universe, [0, 0, 0.50])
@@ -38,9 +37,8 @@ class HueController:
         self.rule3 = ctrl.Rule(self.happy['good'] | self.happy['average'] | self.neutral['good'], self.hue['green'])
         self.rule4 = ctrl.Rule(self.lsr['dark'], self.brightness['dark'])
         self.rule5 = ctrl.Rule(self.lsr['bright'], self.brightness['bright'])
-        self.rule6 = ctrl.Rule(self.angry['good'] | self.sad['good'] | self.sat['good'])
-        self.rule7 = ctrl.Rule(self.angry['average'] | self.sad['average'] | self.sat['average'])
-        # self.rule6 = ctrl.Rule(self.angry['good'] | self.sad['good'] | self.sat['good'])
+        self.rule6 = ctrl.Rule(self.angry['good'] | self.sad['good'], self.sat['good'])
+        self.rule7 = ctrl.Rule(self.angry['average'] | self.sad['average'],  self.sat['average'])
 
         self.hue_controller = ctrl.ControlSystemSimulation(ctrl.ControlSystem([self.rule1, self.rule2, self.rule3,
                                                                                self.rule4, self.rule5, self.rule6, self.rule7]))
