@@ -18,7 +18,7 @@ def home():
         authenticated = True
     return render_template("login.html", status = authenticated)
 
-@app.route("/login", methods=['GET'])
+@app.route("/login", methods=['GET','POST'])
 def login():
     username = request.form["username"]
     password = request.form["password"]
@@ -64,7 +64,9 @@ def logout():
 def delete_relation(username,song):
     title=song[2:len(song)-3]
     db_interaction.delete_relation(username,title)
-    return render_template("system.html")
+    liked_songs = db_interaction.get_liked_songs(username)
+    return render_template("system.html", user=username, songs=liked_songs, length=len(liked_songs))
+
 
 
 @app.route("/registration_error")
