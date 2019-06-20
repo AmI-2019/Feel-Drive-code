@@ -39,7 +39,11 @@ def registration_page():
 def registration():
     username = request.form["username"]
     password = request.form["password"]
+    #try:
     color = int(request.form["color"])
+    #except app.BadRequestException:
+     #   color = 22000
+
     if username == "" or password == "":
         return redirect(url_for("registration_error",status=True))
 
