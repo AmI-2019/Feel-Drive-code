@@ -35,12 +35,17 @@ class Perfume:
                     self.set_value(device_key, instance, 0)
 
     def spray(self, feeling='', force=False):
-        if force or (feeling == 'Motivational' or feeling == 'Relax'):
+        if feeling == 'Motivational' or feeling == 'Relax':
             if time.time() - self.last_spray > self.spray_window:
                 self.last_spray = time.time()
                 self.turn_on()
                 time.sleep(5)
                 self.turn_off()
+        elif force:
+            self.last_spray = time.time()
+            self.turn_on()
+            time.sleep(5)
+            self.turn_off()
 
 
 if __name__ == '__main__':
