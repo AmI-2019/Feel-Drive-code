@@ -102,7 +102,7 @@ class FeelAndDrive:
                     self.lights.set(int(round(hue)), int(round(bri)), int(round(sat)))
                 self.player.set_feeling(feeling)
 
-                self.perfume.spray()
+                self.perfume.spray(feeling)
             else:
                 self.lights.set_party()
         self.player.refresh()

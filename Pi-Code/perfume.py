@@ -5,7 +5,7 @@ from config import Z_BASE_URL, Z_USERNAME, Z_PASSWORD, DEVICE_URL, SWITCH_BINARY
 
 class Perfume:
     def __init__(self):
-        self.spray_window = 60 * 9
+        self.spray_window = 60
         self.last_spray = time.time() - self.spray_window
         self.all_devices = self.get_all_devices()
 
@@ -39,7 +39,7 @@ class Perfume:
             if time.time() - self.last_spray > self.spray_window:
                 self.last_spray = time.time()
             self.turn_on()
-            time.sleep(2)
+            time.sleep(5)
             self.turn_off()
 
 
