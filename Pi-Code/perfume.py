@@ -38,9 +38,9 @@ class Perfume:
         if force or (feeling == 'Motivational' or feeling == 'Realx'):
             if time.time() - self.last_spray > self.spray_window:
                 self.last_spray = time.time()
-            self.turn_on()
-            time.sleep(5)
-            self.turn_off()
+                self.turn_on()
+                time.sleep(5)
+                self.turn_off()
 
 
 if __name__ == '__main__':
